@@ -92,7 +92,7 @@ public class BasicCalculator extends CalculatorFunctionality
         frame.setContentPane(new BasicCalculator().centralPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
-        frame.setSize(400, 250);
+        frame.setSize(330, 250);
         frame.setResizable(false);
         frame.setVisible(true);
     }
