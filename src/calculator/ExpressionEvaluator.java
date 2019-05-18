@@ -16,28 +16,34 @@ public class ExpressionEvaluator
         tokenizer = new ExpressionTokenizer(expressionInput);
     }
 
+    /**
+     * This method computes an arithmetic expression
+     * @return the value of that expression
+     */
     public double getExpressionValue()
     {
-        double value = getTermValue();
+        double term1 = getTermValue();
 
         boolean done = false;
 
+        // if not done, keeps looking for terms to add or minus
         while (!done)
         {
             String nextToken = tokenizer.peekToken();
 
             if ("+".equals(nextToken) || "-".equals(nextToken))
             {
+                // consumes "+" or "-" sign
                 tokenizer.getNextToken();
-                double value2 = getTermValue();
+                double term2 = getTermValue();
 
                 if (nextToken.equals("+"))
                 {
-                    value += value2;
+                    term1 += term2;
                 }
                 else
                 {
-                    value -= value2;
+                    term1 -= term2;
                 }
             }
             else
@@ -46,31 +52,37 @@ public class ExpressionEvaluator
             }
         }
 
-        return value;
+        return term1;
 
     }
 
+    /**
+     * This method computes a arithmetic term consisting of factors
+     * @return the value of that term
+     */
     private double getTermValue()
     {
-        double value = getFactorValue();
+        double factor1 = getFactorValue();
         boolean done = false;
 
+        // if not done, keeps looking for factors to multiply or divide
         while (!done)
         {
             String nextToken = tokenizer.peekToken();
 
             if ("*".equals(nextToken) || "/".equals(nextToken))
             {
+                // consumes "*" or "/" sign
                 tokenizer.getNextToken();
-                double value2 = getFactorValue();
+                double factor2 = getFactorValue();
 
                 if (nextToken.equals("*"))
                 {
-                    value *= value2;
+                    factor1 *= factor2;
                 }
                 else
                 {
-                    value /= value2;
+                    factor1 /= factor2;
                 }
             }
             else
@@ -79,9 +91,14 @@ public class ExpressionEvaluator
             }
         }
 
-        return value;
+        return factor1;
     }
 
+    /**
+     * This method identifies if a factor is a number or another arithmetic expression enclosed
+     * within parentheses
+     * @return a number or another expression
+     */
     private double getFactorValue()
     {
         double value;
