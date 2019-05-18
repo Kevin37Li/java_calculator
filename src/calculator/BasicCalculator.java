@@ -3,6 +3,7 @@ package calculator;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Scanner;
 
 public class BasicCalculator
 {
@@ -42,6 +43,7 @@ public class BasicCalculator
     private JButton dot;
     private JButton equal;
     private JButton clear;
+    private JScrollPane scrollPane;
 
 
     public BasicCalculator() {
@@ -87,11 +89,17 @@ public class BasicCalculator
         equal.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String inputExpression = displayArea.getText();
+                String lastLine = "";
+                Scanner read = new Scanner(displayArea.getText());
 
-                double result = getExpressionResult(inputExpression);
+                while (read.hasNextLine())
+                {
+                    lastLine = read.nextLine();
+                }
 
-                displayArea.setText("" + result);
+                double result = getExpressionResult(lastLine);
+
+                displayArea.append("\n" + result);
             }
         });
         clear.addActionListener(new ActionListener() {
@@ -100,16 +108,6 @@ public class BasicCalculator
                 displayArea.setText("");
             }
         });
-    }
-
-    public static void main(String[] args)
-    {
-        frame.setContentPane(new BasicCalculator().centralPanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setSize(330, 250);
-        frame.setResizable(false);
-        frame.setVisible(true);
     }
 
     /**
@@ -190,5 +188,16 @@ public class BasicCalculator
         ExpressionEvaluator expression = new ExpressionEvaluator(inputExpression);
 
         return expression.getExpressionValue();
+    }
+
+
+    public static void main(String[] args)
+    {
+        frame.setContentPane(new BasicCalculator().centralPanel);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setSize(330, 250);
+        frame.setResizable(false);
+        frame.setVisible(true);
     }
 }

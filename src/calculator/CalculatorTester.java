@@ -1,23 +1,19 @@
 package calculator;
 
 import javax.swing.*;
+import java.util.Scanner;
 
 public class CalculatorTester
 {
     public static void main(String[] args)
     {
-        ExpressionTokenizer expression = new ExpressionTokenizer("(1+2)*36");
+        Scanner in = new Scanner("this is the first line\nthis is the second line\n");
 
-        System.out.println(expression.nextToken());
-        System.out.println(expression.peekToken());
-        System.out.println(expression.nextToken());
-        System.out.println(expression.nextToken());
-        System.out.println(expression.nextToken());
-        System.out.println(expression.nextToken());
-        System.out.println(expression.nextToken());
-        System.out.println(expression.nextToken());
-        System.out.println(expression.nextToken());
-        System.out.println(expression.nextToken());
-        System.out.println(expression.nextToken());
+        String first = in.nextLine();
+        String second = in.nextLine();
+
+        System.out.print(first);
+        System.out.print(second);
+        System.out.print("\ntest");
     }
 }
