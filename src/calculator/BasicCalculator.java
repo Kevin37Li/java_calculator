@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class BasicCalculator extends CalculatorFunctionality
+public class BasicCalculator
 {
     // set up a frame
     private static JFrame frame = new JFrame("BasicCalculator");
@@ -41,6 +41,7 @@ public class BasicCalculator extends CalculatorFunctionality
 
     private JButton dot;
     private JButton equal;
+    private JButton clear;
 
 
     public BasicCalculator() {
@@ -83,8 +84,22 @@ public class BasicCalculator extends CalculatorFunctionality
             }
         });
 
+        equal.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String inputExpression = displayArea.getText();
 
+                double result = getExpressionResult(inputExpression);
 
+                displayArea.setText("" + result);
+            }
+        });
+        clear.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                displayArea.setText("");
+            }
+        });
     }
 
     public static void main(String[] args)
@@ -168,5 +183,12 @@ public class BasicCalculator extends CalculatorFunctionality
                 displayArea.append("9");
             }
         });
+    }
+
+    protected double getExpressionResult(String inputExpression)
+    {
+        ExpressionEvaluator expression = new ExpressionEvaluator(inputExpression);
+
+        return expression.getExpressionValue();
     }
 }
