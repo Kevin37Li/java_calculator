@@ -14,7 +14,7 @@ public class BasicCalculator
     protected JPanel centralPanel;
 
     // the panel containing all the keys for BasicCalculator
-    private JPanel keyPad;
+    protected JPanel keyPad;
 
     // the area displaying the text entered by the user
     protected JTextArea displayArea;
@@ -32,7 +32,7 @@ public class BasicCalculator
     private JButton num9;
 
     // the button helps switch to ScientificCalculator
-    private JButton switchToScientific;
+    protected JButton switchButton;
 
     // buttons for operators
     private JButton division;
@@ -43,24 +43,13 @@ public class BasicCalculator
     private JButton dot;
     private JButton equal;
     private JButton clear;
+    private JButton delete;
     private JScrollPane scrollPane;
-
 
     public BasicCalculator() {
         createNumberKeys();
 
-        switchToScientific.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e)
-            {
-                // destroy the frame
-                frame.setVisible(false);
-                frame.dispose();
-
-                // set up a new frame for ScientificCalculator
-                ScientificCalculator.main(null);
-            }
-        });
+        createSwitchButton();
         division.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -106,6 +95,13 @@ public class BasicCalculator
             @Override
             public void actionPerformed(ActionEvent e) {
                 displayArea.setText("");
+            }
+        });
+        delete.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                displayArea.setText(displayArea.getText().substring(0,
+                        displayArea.getText().length() - 1));
             }
         });
     }
@@ -179,6 +175,22 @@ public class BasicCalculator
             @Override
             public void actionPerformed(ActionEvent e) {
                 displayArea.append("9");
+            }
+        });
+    }
+
+    protected void createSwitchButton()
+    {
+        switchButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                // destroy the frame
+                frame.setVisible(false);
+                frame.dispose();
+
+                // set up a new frame for ScientificCalculator
+                ScientificCalculator.main(null);
             }
         });
     }

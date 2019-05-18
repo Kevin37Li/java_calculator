@@ -10,84 +10,84 @@
     </properties>
     <border type="none"/>
     <children>
-      <component id="92ba" class="javax.swing.JButton" binding="closingParenthesis">
-        <constraints>
-          <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <text value=")"/>
-        </properties>
-      </component>
-      <component id="aa964" class="javax.swing.JButton" binding="button3" default-binding="true">
+      <component id="aa964" class="javax.swing.JButton" binding="tan">
         <constraints>
           <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Button"/>
+          <text value="Tan"/>
         </properties>
       </component>
-      <component id="82325" class="javax.swing.JButton" binding="button4" default-binding="true">
+      <component id="82325" class="javax.swing.JButton" binding="log">
         <constraints>
           <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Button"/>
+          <text value="Log"/>
         </properties>
       </component>
-      <component id="97376" class="javax.swing.JButton" binding="button1" default-binding="true">
+      <component id="97376" class="javax.swing.JButton" binding="squared">
         <constraints>
           <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Button"/>
+          <text value="X²"/>
         </properties>
       </component>
-      <component id="c53fa" class="javax.swing.JButton" binding="button5" default-binding="true">
+      <component id="c53fa" class="javax.swing.JButton" binding="graph">
         <constraints>
           <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Button"/>
+          <text value="Graph"/>
         </properties>
       </component>
-      <component id="a94a4" class="javax.swing.JButton" binding="button6" default-binding="true">
+      <component id="a94a4" class="javax.swing.JButton" binding="cubed">
         <constraints>
           <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Button"/>
+          <text value="X³"/>
         </properties>
       </component>
-      <component id="5fd45" class="javax.swing.JButton" binding="button7" default-binding="true">
+      <component id="5fd45" class="javax.swing.JButton" binding="sqrt">
         <constraints>
           <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Button"/>
-        </properties>
-      </component>
-      <component id="4439e" class="javax.swing.JButton" binding="button9" default-binding="true">
-        <constraints>
-          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <text value="Button"/>
+          <text value="√X"/>
         </properties>
       </component>
       <component id="80d62" class="javax.swing.JButton" binding="openingParenthesis">
         <constraints>
-          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <text value="("/>
         </properties>
       </component>
-      <component id="c50ee" class="javax.swing.JButton" binding="switchToBasic">
+      <component id="c50ee" class="javax.swing.JButton" binding="sin">
         <constraints>
-          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Bas"/>
+          <text value="Sin"/>
+        </properties>
+      </component>
+      <component id="92ba" class="javax.swing.JButton" binding="closingParenthesis">
+        <constraints>
+          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value=")"/>
+        </properties>
+      </component>
+      <component id="4439e" class="javax.swing.JButton" binding="cos">
+        <constraints>
+          <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Cos"/>
         </properties>
       </component>
     </children>

@@ -141,21 +141,28 @@
               <text value="+"/>
             </properties>
           </component>
-          <component id="58bc7" class="javax.swing.JButton" binding="switchToScientific">
-            <constraints>
-              <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <background color="-1250068"/>
-              <text value="sci"/>
-            </properties>
-          </component>
-          <component id="ffd34" class="javax.swing.JButton" binding="clear">
+          <component id="d6bca" class="javax.swing.JButton" binding="switchButton">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="clear"/>
+              <text value="Mode"/>
+            </properties>
+          </component>
+          <component id="ffd34" class="javax.swing.JButton" binding="clear">
+            <constraints>
+              <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Clear"/>
+            </properties>
+          </component>
+          <component id="89a12" class="javax.swing.JButton" binding="delete">
+            <constraints>
+              <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="⌫"/>
             </properties>
           </component>
         </children>
