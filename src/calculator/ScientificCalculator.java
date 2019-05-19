@@ -25,25 +25,14 @@ public class ScientificCalculator extends BasicCalculator
     public ScientificCalculator() {
         createSwitchButton();
 
-        openingParenthesis.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                displayArea.append("(");
-            }
-        });
-        closingParenthesis.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                displayArea.append(")");
-            }
-        });
+        openingParenthesis.addActionListener(e -> displayArea.append("("));
+        closingParenthesis.addActionListener(e -> displayArea.append(")"));
     }
 
     protected void createSwitchButton()
     {
-        switchButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        switchButton.addActionListener(e ->
+            {
                 // destroy the frame
                 frame.setVisible(false);
                 frame.dispose();
@@ -51,7 +40,7 @@ public class ScientificCalculator extends BasicCalculator
                 // set up a new frame for BasicCalculator
                 BasicCalculator.main(null);
             }
-        });
+        );
     }
 
     public static void main(String[] args) {

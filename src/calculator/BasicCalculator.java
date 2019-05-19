@@ -19,6 +19,9 @@ public class BasicCalculator
     // the area displaying the text entered by the user
     protected JTextArea displayArea;
 
+    // add scrollbars to displayArea
+    private JScrollPane scrollPane;
+
     // all the number keys from 0 to 9
     private JButton num0;
     private JButton num1;
@@ -39,45 +42,77 @@ public class BasicCalculator
     private JButton multiplication;
     private JButton minus;
     private JButton plus;
-
-    private JButton dot;
     private JButton equal;
+    private JButton dot;
     private JButton clear;
     private JButton delete;
-    private JScrollPane scrollPane;
+
 
     public BasicCalculator() {
         createNumberKeys();
 
         createSwitchButton();
-        division.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+
+        createOperatorButtons();
+    }
+
+    /**
+     * this method helps to attach action listeners to each number key
+     */
+    private void createNumberKeys()
+    {
+        dot.addActionListener(e -> displayArea.append("."));
+        num0.addActionListener(e -> displayArea.append("0"));
+        num1.addActionListener(e -> displayArea.append("1"));
+        num2.addActionListener(e -> displayArea.append("2"));
+        num3.addActionListener(e -> displayArea.append("3"));
+        num4.addActionListener(e -> displayArea.append("4"));
+        num5.addActionListener(e -> displayArea.append("5"));
+        num6.addActionListener(e -> displayArea.append("6"));
+        num7.addActionListener(e -> displayArea.append("7"));
+        num8.addActionListener(e -> displayArea.append("8"));
+        num9.addActionListener(e -> displayArea.append("9"));
+    }
+
+    protected void createSwitchButton()
+    {
+        switchButton.addActionListener(e ->
+            {
+                // destroy the frame
+                frame.setVisible(false);
+                frame.dispose();
+
+                // set up a new frame for ScientificCalculator
+                ScientificCalculator.main(null);
+            }
+        );
+    }
+
+    private void createOperatorButtons()
+    {
+        division.addActionListener(e ->
+            {
                 displayArea.append("/");
             }
-        });
-        multiplication.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        );
+        multiplication.addActionListener(e ->
+            {
                 displayArea.append("*");
             }
-        });
-        minus.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        );
+        minus.addActionListener(e ->
+            {
                 displayArea.append("-");
             }
-        });
-        plus.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        );
+        plus.addActionListener(e ->
+            {
                 displayArea.append("+");
             }
-        });
+        );
 
-        equal.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        equal.addActionListener(e ->
+            {
                 String lastLine = "";
                 Scanner read = new Scanner(displayArea.getText());
 
@@ -90,112 +125,21 @@ public class BasicCalculator
 
                 displayArea.append("\n" + result);
             }
-        });
-        clear.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        );
+        clear.addActionListener(e ->
+            {
                 displayArea.setText("");
             }
-        });
-        delete.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        );
+        delete.addActionListener(e ->
+            {
                 displayArea.setText(displayArea.getText().substring(0,
                         displayArea.getText().length() - 1));
             }
-        });
+        );
     }
 
-    /**
-     * this method helps to attach action listeners to each number key
-     */
-    private void createNumberKeys()
-    {
-        dot.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                displayArea.append(".");
-            }
-        });
-        num0.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                displayArea.append("0");
-            }
-        });
-        num1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                displayArea.append("1");
-            }
-        });
-        num2.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                displayArea.append("2");
-            }
-        });
-        num3.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                displayArea.append("3");
-            }
-        });
-        num4.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                displayArea.append("4");
-            }
-        });
-        num5.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                displayArea.append("5");
-            }
-        });
-        num6.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                displayArea.append("6");
-            }
-        });
-        num7.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                displayArea.append("7");
-            }
-        });
-        num8.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                displayArea.append("8");
-            }
-        });
-        num9.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                displayArea.append("9");
-            }
-        });
-    }
-
-    protected void createSwitchButton()
-    {
-        switchButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e)
-            {
-                // destroy the frame
-                frame.setVisible(false);
-                frame.dispose();
-
-                // set up a new frame for ScientificCalculator
-                ScientificCalculator.main(null);
-            }
-        });
-    }
-
-    protected double getExpressionResult(String inputExpression)
+    private double getExpressionResult(String inputExpression)
     {
         ExpressionEvaluator expression = new ExpressionEvaluator(inputExpression);
 
