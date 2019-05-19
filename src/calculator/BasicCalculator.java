@@ -1,8 +1,6 @@
 package calculator;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Scanner;
 
 public class BasicCalculator
@@ -53,11 +51,11 @@ public class BasicCalculator
 
         createSwitchButton();
 
-        createOperatorButtons();
+        createOperationButtons();
     }
 
     /**
-     * this method helps to attach action listeners to each number key
+     * This method helps to attach action listeners to each number key
      */
     private void createNumberKeys()
     {
@@ -74,11 +72,14 @@ public class BasicCalculator
         num9.addActionListener(e -> displayArea.append("9"));
     }
 
+    /**
+     * This method creates the switchButton for BasicCalculator to switch to ScientificCalculator
+     */
     protected void createSwitchButton()
     {
         switchButton.addActionListener(e ->
             {
-                // destroy the frame
+                // destroy the current frame
                 frame.setVisible(false);
                 frame.dispose();
 
@@ -88,7 +89,10 @@ public class BasicCalculator
         );
     }
 
-    private void createOperatorButtons()
+    /**
+     * This method creates buttons for different kinds of basic operations within a calculator
+     */
+    private void createOperationButtons()
     {
         division.addActionListener(e ->
             {
@@ -126,11 +130,14 @@ public class BasicCalculator
                 displayArea.append("\n" + result);
             }
         );
+
+        // clear all the data within displayArea
         clear.addActionListener(e ->
             {
                 displayArea.setText("");
             }
         );
+        // delete one character
         delete.addActionListener(e ->
             {
                 displayArea.setText(displayArea.getText().substring(0,
@@ -139,6 +146,11 @@ public class BasicCalculator
         );
     }
 
+    /**
+     * This method computes an arithmetic expression and returns the final result
+     * @param inputExpression the arithmetic expression about to be calculated
+     * @return the final result of that expression
+     */
     private double getExpressionResult(String inputExpression)
     {
         ExpressionEvaluator expression = new ExpressionEvaluator(inputExpression);

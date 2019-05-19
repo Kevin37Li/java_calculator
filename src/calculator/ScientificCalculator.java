@@ -10,17 +10,21 @@ public class ScientificCalculator extends BasicCalculator
     // set up a frame
     private static JFrame frame = new JFrame("ScientificCalculator");
 
+    // consisting of all the additional functionality for a scientificCalculator
     private JPanel additionalPanel;
+
+    // all the operations a scientificCalculator can do
     private JButton sin;
-    private JButton squared;
-    private JButton closingParenthesis;
+    private JButton cos;
     private JButton tan;
     private JButton log;
+    private JButton squared;
     private JButton cubed;
     private JButton sqrt;
     private JButton graph;
+    private JButton closingParenthesis;
     private JButton openingParenthesis;
-    private JButton cos;
+
 
     public ScientificCalculator() {
         createSwitchButton();
@@ -29,11 +33,15 @@ public class ScientificCalculator extends BasicCalculator
         closingParenthesis.addActionListener(e -> displayArea.append(")"));
     }
 
+    /**
+     * Override the one in BasicCalculator class, creates the switchButton for Scientific to
+     * switch to Basic
+     */
     protected void createSwitchButton()
     {
         switchButton.addActionListener(e ->
             {
-                // destroy the frame
+                // destroy the current frame
                 frame.setVisible(false);
                 frame.dispose();
 
