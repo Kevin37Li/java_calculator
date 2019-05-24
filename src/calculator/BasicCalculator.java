@@ -84,7 +84,7 @@ public class BasicCalculator
                 frame.dispose();
 
                 // set up a new frame for ScientificCalculator
-                ScientificCalculator.main(null);
+                ScientificCalculator.main(new String[] {displayArea.getText()});
             }
         );
     }
@@ -199,11 +199,20 @@ public class BasicCalculator
 
     public static void main(String[] args)
     {
-        frame.setContentPane(new BasicCalculator().centralPanel);
+        BasicCalculator calculator = new BasicCalculator();
+
+        // there is still content left in displayArea when switching from scientific to basic
+        if (args.length != 0)
+        {
+            calculator.displayArea.setText(args[0]);
+        }
+
+        frame.setContentPane(calculator.centralPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setSize(330, 250);
         frame.setResizable(false);
         frame.setVisible(true);
     }
+
 }

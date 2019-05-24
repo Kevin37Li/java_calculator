@@ -35,7 +35,6 @@ public class ScientificCalculator extends BasicCalculator
 
         sin.addActionListener(e ->
             {
-                // Get the number to be calculated
                 double num = getNum();
                 double result = Math.sin(Math.toRadians(num));
 
@@ -44,31 +43,26 @@ public class ScientificCalculator extends BasicCalculator
             });
         cos.addActionListener(e ->
             {
-                // Get the number to be calculated
                 double num = getNum();
                 double result = Math.cos(Math.toRadians(num));
 
-                // replace the num with the corresponding result with the displayArea
                 resetNum(num, String.format("%.4f", result));
             });
         tan.addActionListener(e ->
             {
-                // Get the number to be calculated
                 double num = getNum();
 
                 // if 90 degree or 270 degree and so on
                 if ((num / 90) % 2 == 1)
                 {
-                    JOptionPane.showMessageDialog(null, "invalid value for tangent (result is " +
-                            "undefined)");
+                    JOptionPane.showMessageDialog(null, "invalid value " +
+                            "for tangent (result is undefined)");
                     resetNum(num, "");
                 }
                 // all the other values are valid for tangent
                 else
                 {
                     double result = Math.tan(Math.toRadians(num));
-
-                    // replace the num with the corresponding result with the displayArea
                     resetNum(num, String.format("%.4f", result));
                 }
             }
@@ -112,7 +106,7 @@ public class ScientificCalculator extends BasicCalculator
                 frame.dispose();
 
                 // set up a new frame for BasicCalculator
-                BasicCalculator.main(null);
+                BasicCalculator.main(new String[] {displayArea.getText()});
             }
         );
     }
@@ -125,8 +119,8 @@ public class ScientificCalculator extends BasicCalculator
      */
     private void resetNum(double num, String result)
     {
-        // Get all the content within the displayArea
         String displayContent = displayArea.getText();
+
         // the starting index of the num which will be replaced by result
         int cut;
 
@@ -144,14 +138,17 @@ public class ScientificCalculator extends BasicCalculator
 
     public static void main(String[] args)
     {
-        // create a ScientificCalculator
-        ScientificCalculator scientificCalculator = new ScientificCalculator();
+        ScientificCalculator calculator = new ScientificCalculator();
+
+        // there is still content left in displayArea when switching from basic to scientific
+        if (args.length != 0)
+        {
+            calculator.displayArea.setText(args[0]);
+        }
 
         // add the additionalPanel to its centralPanel which inherited from the BasicCalculator
-        scientificCalculator.centralPanel.add(scientificCalculator.additionalPanel, BorderLayout.EAST);
-
-        // set up the contentPane of the frame with centralPanel from the scientificCalculator
-        frame.setContentPane(scientificCalculator.centralPanel);
+        calculator.centralPanel.add(calculator.additionalPanel, BorderLayout.EAST);
+        frame.setContentPane(calculator.centralPanel);
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
