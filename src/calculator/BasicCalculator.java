@@ -117,15 +117,7 @@ public class BasicCalculator
 
         equal.addActionListener(e ->
             {
-                String lastLine = "";
-                Scanner read = new Scanner(displayArea.getText());
-
-                while (read.hasNextLine())
-                {
-                    lastLine = read.nextLine();
-                }
-
-                double result = getExpressionResult(lastLine);
+                double result = getExpressionResult(getExpression());
 
                 displayArea.append("\n" + result);
             }
@@ -140,8 +132,9 @@ public class BasicCalculator
         // delete one character
         delete.addActionListener(e ->
             {
-                displayArea.setText(displayArea.getText().substring(0,
-                        displayArea.getText().length() - 1));
+                String content = displayArea.getText();
+                displayArea.setText(content.substring(0,
+                        content.length() - 1));
             }
         );
     }
@@ -156,6 +149,51 @@ public class BasicCalculator
         ExpressionEvaluator expression = new ExpressionEvaluator(inputExpression);
 
         return expression.getExpressionValue();
+    }
+
+    /**
+     * This method reads through the displayArea and gets the last line of text as the expression
+     * that is about to be evaluated
+     * @return the last line within the displayArea TextArea
+     */
+    protected String getExpression()
+    {
+        String expression = "";
+        Scanner read = new Scanner(displayArea.getText());
+
+        while (read.hasNextLine())
+        {
+            expression = read.nextLine();
+        }
+
+        return expression;
+    }
+
+    /**
+     * This method gets the number user just entered for operator like sin or cos to act upon on
+     * @return the number as an operand
+     */
+    protected double getNum()
+    {
+        String expression = getExpression();
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = expression.length() - 1; i >= 0; i--)
+        {
+            if (Character.isDigit(expression.charAt(i)) || expression.charAt(i) == '.')
+            {
+                sb.append(expression.charAt(i));
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        // The String version of the number
+        String strNum = sb.reverse().toString();
+
+        return Double.parseDouble(strNum);
     }
 
 

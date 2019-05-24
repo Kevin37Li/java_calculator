@@ -17,7 +17,7 @@ public class ScientificCalculator extends BasicCalculator
     private JButton sin;
     private JButton cos;
     private JButton tan;
-    private JButton log;
+    private JButton ln;
     private JButton squared;
     private JButton cubed;
     private JButton sqrt;
@@ -31,6 +31,72 @@ public class ScientificCalculator extends BasicCalculator
 
         openingParenthesis.addActionListener(e -> displayArea.append("("));
         closingParenthesis.addActionListener(e -> displayArea.append(")"));
+
+
+        sin.addActionListener(e ->
+            {
+                // Get the number to be calculated
+                double num = getNum();
+                double result = Math.sin(Math.toRadians(num));
+
+                // replace the num with the corresponding result with the displayArea
+                resetNum(num, String.format("%.4f", result));
+            });
+        cos.addActionListener(e ->
+            {
+                // Get the number to be calculated
+                double num = getNum();
+                double result = Math.cos(Math.toRadians(num));
+
+                // replace the num with the corresponding result with the displayArea
+                resetNum(num, String.format("%.4f", result));
+            });
+        tan.addActionListener(e ->
+            {
+                // Get the number to be calculated
+                double num = getNum();
+
+                // if 90 degree or 270 degree and so on
+                if ((num / 90) % 2 == 1)
+                {
+                    JOptionPane.showMessageDialog(null, "invalid value for tangent (result is " +
+                            "undefined)");
+                    resetNum(num, "");
+                }
+                // all the other values are valid for tangent
+                else
+                {
+                    double result = Math.tan(Math.toRadians(num));
+
+                    // replace the num with the corresponding result with the displayArea
+                    resetNum(num, String.format("%.4f", result));
+                }
+            }
+        );
+        ln.addActionListener(e ->
+            {
+                double num = getNum();
+                double result = Math.log(num);
+                resetNum(num, String.format("%.4f", result));
+            });
+        squared.addActionListener(e ->
+            {
+                double num = getNum();
+                double result = Math.pow(num, 2);
+                resetNum(num, "" + result);
+            });
+        cubed.addActionListener(e ->
+            {
+                double num = getNum();
+                double result = Math.pow(num, 3);
+                resetNum(num, "" + result);
+            });
+        sqrt.addActionListener(e ->
+            {
+                double num = getNum();
+                double result = Math.sqrt(num);
+                resetNum(num, "" + result);
+            });
     }
 
     /**
@@ -51,7 +117,33 @@ public class ScientificCalculator extends BasicCalculator
         );
     }
 
-    public static void main(String[] args) {
+    /**
+     * This method helps to replace the operand num with the result after the operation like sin
+     * or cos within the displayArea
+     * @param num the operand
+     * @param result the result obtained after the operation
+     */
+    private void resetNum(double num, String result)
+    {
+        // Get all the content within the displayArea
+        String displayContent = displayArea.getText();
+        // the starting index of the num which will be replaced by result
+        int cut;
+
+        if (num == (int) num)
+        {
+            cut = displayContent.lastIndexOf("" + (int)num);
+        }
+        else
+        {
+            cut = displayContent.lastIndexOf("" + num);
+        }
+
+        displayArea.setText(displayContent.substring(0, cut) + result);
+    }
+
+    public static void main(String[] args)
+    {
         // create a ScientificCalculator
         ScientificCalculator scientificCalculator = new ScientificCalculator();
 
