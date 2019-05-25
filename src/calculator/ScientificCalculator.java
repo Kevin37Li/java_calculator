@@ -29,8 +29,25 @@ public class ScientificCalculator extends BasicCalculator
     public ScientificCalculator() {
         createSwitchButton();
 
-        openingParenthesis.addActionListener(e -> displayArea.append("("));
-        closingParenthesis.addActionListener(e -> displayArea.append(")"));
+
+        closingParenthesis.addActionListener(e -> addSymbol(")"));
+
+        openingParenthesis.addActionListener(e ->
+            {
+                String content = displayArea.getText();
+                if (content.length() != 0)
+                {
+                    char lastChar = content.charAt(content.length() - 1);
+                    if ((lastChar != '(' && lastChar != ')' && !Character.isDigit(lastChar)))
+                    {
+                        displayArea.append("(");
+                    }
+                }
+                else
+                {
+                    displayArea.append("(");
+                }
+            });
 
 
         sin.addActionListener(e ->
@@ -39,14 +56,14 @@ public class ScientificCalculator extends BasicCalculator
                 double result = Math.sin(Math.toRadians(num));
 
                 // replace the num with the corresponding result with the displayArea
-                resetNum(num, String.format("%.4f", result));
+                resetNum(num, String.format("%.5f", result));
             });
         cos.addActionListener(e ->
             {
                 double num = getNum();
                 double result = Math.cos(Math.toRadians(num));
 
-                resetNum(num, String.format("%.4f", result));
+                resetNum(num, String.format("%.5f", result));
             });
         tan.addActionListener(e ->
             {
@@ -63,7 +80,7 @@ public class ScientificCalculator extends BasicCalculator
                 else
                 {
                     double result = Math.tan(Math.toRadians(num));
-                    resetNum(num, String.format("%.4f", result));
+                    resetNum(num, String.format("%.5f", result));
                 }
             }
         );
@@ -71,25 +88,25 @@ public class ScientificCalculator extends BasicCalculator
             {
                 double num = getNum();
                 double result = Math.log(num);
-                resetNum(num, String.format("%.4f", result));
+                resetNum(num, String.format("%.5f", result));
             });
         squared.addActionListener(e ->
             {
                 double num = getNum();
                 double result = Math.pow(num, 2);
-                resetNum(num, "" + result);
+                resetNum(num, String.format("%.5f", result));
             });
         cubed.addActionListener(e ->
             {
                 double num = getNum();
                 double result = Math.pow(num, 3);
-                resetNum(num, "" + result);
+                resetNum(num, String.format("%.5f", result));
             });
         sqrt.addActionListener(e ->
             {
                 double num = getNum();
                 double result = Math.sqrt(num);
-                resetNum(num, "" + result);
+                resetNum(num, String.format("%.5f", result));
             });
     }
 

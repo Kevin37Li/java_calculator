@@ -182,8 +182,8 @@ class ExpressionTokenizer
         {
             end = start + 1;
 
-            // if the next character is still a digit, sets the end index one position after the
-            // end of the number
+            // if the next character is still a digit or a decimal place, sets the end index one
+            // position after the end of the number
             while (end < input.length() &&
                     (Character.isDigit(input.charAt(end)) || input.charAt(end) == '.'))
             {

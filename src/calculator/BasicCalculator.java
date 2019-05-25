@@ -59,7 +59,6 @@ public class BasicCalculator
      */
     private void createNumberKeys()
     {
-        dot.addActionListener(e -> displayArea.append("."));
         num0.addActionListener(e -> displayArea.append("0"));
         num1.addActionListener(e -> displayArea.append("1"));
         num2.addActionListener(e -> displayArea.append("2"));
@@ -70,6 +69,24 @@ public class BasicCalculator
         num7.addActionListener(e -> displayArea.append("7"));
         num8.addActionListener(e -> displayArea.append("8"));
         num9.addActionListener(e -> displayArea.append("9"));
+        dot.addActionListener(e ->
+            {
+                String content = displayArea.getText();
+                if (content.length() != 0 && Character.isDigit(content.charAt(content.length() - 1)))
+                {
+                    double num = getNum();
+
+                    // Check if the number entered is an int
+                    if (num == (int) num)
+                    {
+                        displayArea.append(".");
+                    }
+                }
+                else
+                {
+                    displayArea.append("0.");
+                }
+            });
     }
 
     /**
@@ -85,8 +102,7 @@ public class BasicCalculator
 
                 // set up a new frame for ScientificCalculator
                 ScientificCalculator.main(new String[] {displayArea.getText()});
-            }
-        );
+            });
     }
 
     /**
@@ -94,49 +110,31 @@ public class BasicCalculator
      */
     private void createOperationButtons()
     {
-        division.addActionListener(e ->
-            {
-                displayArea.append("/");
-            }
-        );
-        multiplication.addActionListener(e ->
-            {
-                displayArea.append("*");
-            }
-        );
-        minus.addActionListener(e ->
-            {
-                displayArea.append("-");
-            }
-        );
-        plus.addActionListener(e ->
-            {
-                displayArea.append("+");
-            }
-        );
+        division.addActionListener(e -> addSymbol("/"));
+        multiplication.addActionListener(e -> addSymbol("*"));
+        minus.addActionListener(e -> addSymbol("-"));
+        plus.addActionListener(e -> addSymbol("+"));
 
         equal.addActionListener(e ->
             {
                 double result = getExpressionResult(getExpression());
 
-                displayArea.append("\n" + result);
-            }
-        );
+                displayArea.append("\n" + String.format("%.2f", result));
+            });
 
         // clear all the data within displayArea
         clear.addActionListener(e ->
             {
                 displayArea.setText("");
-            }
-        );
+            });
+
         // delete one character
         delete.addActionListener(e ->
             {
                 String content = displayArea.getText();
                 displayArea.setText(content.substring(0,
                         content.length() - 1));
-            }
-        );
+            });
     }
 
     /**
@@ -196,6 +194,18 @@ public class BasicCalculator
         return Double.parseDouble(strNum);
     }
 
+    /**
+     * This method adds symbols like "+" to the displayArea
+     * @param symbol to be appended to displayArea
+     */
+    protected void addSymbol(String symbol)
+    {
+        String content = displayArea.getText();
+        if (content.length() != 0 && Character.isDigit(content.charAt(content.length() - 1)))
+        {
+            displayArea.append(symbol);
+        }
+    }
 
     public static void main(String[] args)
     {
