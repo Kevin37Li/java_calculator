@@ -2,8 +2,6 @@ package calculator;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class ScientificCalculator extends BasicCalculator
 {
@@ -11,7 +9,7 @@ public class ScientificCalculator extends BasicCalculator
     private static JFrame frame = new JFrame("ScientificCalculator");
 
     // consisting of all the additional functionality for a scientificCalculator
-    private JPanel additionalPanel;
+    private JPanel additionalKeys;
 
     // all the operations a scientificCalculator can do
     private JButton sin;
@@ -28,6 +26,8 @@ public class ScientificCalculator extends BasicCalculator
 
     public ScientificCalculator() {
         createSwitchButton();
+
+        createDrawingPanel();
 
 
         closingParenthesis.addActionListener(e -> addSymbol(")"));
@@ -153,6 +153,29 @@ public class ScientificCalculator extends BasicCalculator
         displayArea.setText(displayContent.substring(0, cut) + result);
     }
 
+    private void createDrawingPanel()
+    {
+        JPanel drawingPanel = new JPanel();
+        drawingPanel.setLayout(new BorderLayout());
+
+        JPanel header = new JPanel();
+        final int FIELD_WIDTH = 8;
+        JTextField m = new JTextField(FIELD_WIDTH);
+        JTextField b = new JTextField(FIELD_WIDTH);
+        JButton draw = new JButton("draw");
+
+        header.add(draw);
+        header.add(new JLabel("  y = mx + b;  "));
+        header.add(new JLabel("m ="));
+        header.add(m);
+        header.add(new JLabel("b ="));
+        header.add(b);
+
+
+        drawingPanel.add(header, BorderLayout.NORTH);
+        this.centralPanel.add(drawingPanel, BorderLayout.SOUTH);
+    }
+
     public static void main(String[] args)
     {
         ScientificCalculator calculator = new ScientificCalculator();
@@ -163,13 +186,13 @@ public class ScientificCalculator extends BasicCalculator
             calculator.displayArea.setText(args[0]);
         }
 
-        // add the additionalPanel to its centralPanel which inherited from the BasicCalculator
-        calculator.centralPanel.add(calculator.additionalPanel, BorderLayout.EAST);
+        // add the additionalKeys to its centralPanel which inherited from the BasicCalculator
+        calculator.centralPanel.add(calculator.additionalKeys, BorderLayout.EAST);
         frame.setContentPane(calculator.centralPanel);
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        frame.setSize(530, 700);
         frame.pack();
-        frame.setSize(530, 250);
         frame.setResizable(false);
         frame.setVisible(true);
 

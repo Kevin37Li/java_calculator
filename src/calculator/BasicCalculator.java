@@ -219,8 +219,8 @@ public class BasicCalculator
 
         frame.setContentPane(calculator.centralPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
         frame.setSize(330, 250);
+        frame.pack();
         frame.setResizable(false);
         frame.setVisible(true);
     }
