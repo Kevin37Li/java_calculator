@@ -2,6 +2,7 @@ package calculator;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.Line2D;
 
 public class ScientificCalculator extends BasicCalculator
 {
@@ -23,12 +24,29 @@ public class ScientificCalculator extends BasicCalculator
     private JButton closingParenthesis;
     private JButton openingParenthesis;
 
+    private JPanel drawingPanel;
+    private DrawingComponent drawLine;
+    private boolean drawingMode;
+    private JPanel header;
+    private JButton draw;
+    JTextField m;
+    JTextField b;
 
-    public ScientificCalculator() {
+
+    private double y1;
+    private double y2;
+
+    static final int DRAWING_WIDTH = 400;
+    static final int DRAWING_HEIGHT = 400;
+    static final double x1 = DRAWING_WIDTH / 2.0;
+    static final double x2 = DRAWING_WIDTH / -2.0;
+
+    public ScientificCalculator()
+    {
+        drawingMode = false;
         createSwitchButton();
 
-        createDrawingPanel();
-
+        createDrawPanel();
 
         closingParenthesis.addActionListener(e -> addSymbol(")"));
 
@@ -108,6 +126,21 @@ public class ScientificCalculator extends BasicCalculator
                 double result = Math.sqrt(num);
                 resetNum(num, String.format("%.5f", result));
             });
+        graph.addActionListener(e ->
+            {
+                if (!drawingMode)
+                {
+                    drawLine.setVisible(true);
+                    frame.pack();
+                    drawingMode = true;
+                }
+                else
+                {
+                    drawLine.setVisible(false);
+                    frame.pack();
+                    drawingMode = false;
+                }
+            });
     }
 
     /**
@@ -153,16 +186,33 @@ public class ScientificCalculator extends BasicCalculator
         displayArea.setText(displayContent.substring(0, cut) + result);
     }
 
-    private void createDrawingPanel()
+    private void createDrawPanel()
     {
-        JPanel drawingPanel = new JPanel();
+        drawingPanel = new JPanel();
         drawingPanel.setLayout(new BorderLayout());
 
-        JPanel header = new JPanel();
-        final int FIELD_WIDTH = 8;
-        JTextField m = new JTextField(FIELD_WIDTH);
-        JTextField b = new JTextField(FIELD_WIDTH);
-        JButton draw = new JButton("draw");
+        createDrawPanelHeader();
+        drawingPanel.add(header, BorderLayout.NORTH);
+
+        createDrawComponent();
+        drawingPanel.add(drawLine, BorderLayout.CENTER);
+
+        this.centralPanel.add(drawingPanel, BorderLayout.SOUTH);
+    }
+
+    private void createDrawComponent()
+    {
+        drawLine = new DrawingComponent();
+        drawLine.setPreferredSize(new Dimension(DRAWING_WIDTH, DRAWING_HEIGHT));
+        drawLine.setVisible(drawingMode);
+    }
+
+    private void createDrawPanelHeader()
+    {
+        header = new JPanel();
+
+        createHeaderTextField();
+        createDrawButton();
 
         header.add(draw);
         header.add(new JLabel("  y = mx + b;  "));
@@ -170,11 +220,32 @@ public class ScientificCalculator extends BasicCalculator
         header.add(m);
         header.add(new JLabel("b ="));
         header.add(b);
-
-
-        drawingPanel.add(header, BorderLayout.NORTH);
-        this.centralPanel.add(drawingPanel, BorderLayout.SOUTH);
     }
+
+    private void createHeaderTextField()
+    {
+        final int FIELD_WIDTH = 8;
+        m = new JTextField(FIELD_WIDTH);
+        b = new JTextField(FIELD_WIDTH);
+
+        m.setText("1");
+        b.setText("0");
+    }
+
+    private void createDrawButton()
+    {
+        draw = new JButton("draw");
+        draw.addActionListener(e ->
+            {
+                double m = Double.parseDouble(this.m.getText());
+                double b = Double.parseDouble(this.b.getText());
+
+                y1 = x1 * m + b;
+                y2 = x2 * m + b;
+                drawLine.reDraw(y1, y2);
+            });
+    }
+
 
     public static void main(String[] args)
     {
@@ -199,4 +270,39 @@ public class ScientificCalculator extends BasicCalculator
     }
 
 
+}
+
+/**
+ * A component that draws a linear line
+ */
+class DrawingComponent extends JComponent
+{
+    private double y1;
+    private double y2;
+
+    public DrawingComponent()
+    {
+        y1 = ScientificCalculator.x1;
+        y2 = ScientificCalculator.x2;
+    }
+    public void paintComponent(Graphics g)
+    {
+        Graphics2D gr = (Graphics2D) g;
+        gr.translate(ScientificCalculator.DRAWING_WIDTH / 2.0,
+                ScientificCalculator.DRAWING_HEIGHT / 2.0);
+        gr.scale(10, -10);
+
+        gr.drawLine(0, 200, 0, -200);
+        gr.drawLine(200, 0, -200, 0);
+
+        Shape line = new Line2D.Double(ScientificCalculator.x1, y1, ScientificCalculator.x2, y2);
+        gr.draw(line);
+    }
+
+    public void reDraw(double y1, double y2)
+    {
+        this.y1 = y1;
+        this.y2 = y2;
+        repaint();
+    }
 }
