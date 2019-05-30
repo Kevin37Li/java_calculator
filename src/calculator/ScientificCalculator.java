@@ -36,7 +36,7 @@ public class ScientificCalculator extends BasicCalculator
     private double y1;
     private double y2;
 
-    static final int DRAWING_WIDTH = 400;
+    static final int DRAWING_WIDTH = 500;
     static final int DRAWING_HEIGHT = 400;
     static final double x1 = DRAWING_WIDTH / 2.0;
     static final double x2 = DRAWING_WIDTH / -2.0;
@@ -130,13 +130,13 @@ public class ScientificCalculator extends BasicCalculator
             {
                 if (!drawingMode)
                 {
-                    drawLine.setVisible(true);
+                    drawingPanel.setVisible(true);
                     frame.pack();
                     drawingMode = true;
                 }
                 else
                 {
-                    drawLine.setVisible(false);
+                    drawingPanel.setVisible(false);
                     frame.pack();
                     drawingMode = false;
                 }
@@ -204,7 +204,6 @@ public class ScientificCalculator extends BasicCalculator
     {
         drawLine = new DrawingComponent();
         drawLine.setPreferredSize(new Dimension(DRAWING_WIDTH, DRAWING_HEIGHT));
-        drawLine.setVisible(drawingMode);
     }
 
     private void createDrawPanelHeader()
@@ -290,6 +289,7 @@ class DrawingComponent extends JComponent
         Graphics2D gr = (Graphics2D) g;
         gr.translate(ScientificCalculator.DRAWING_WIDTH / 2.0,
                 ScientificCalculator.DRAWING_HEIGHT / 2.0);
+//        gr.translate(200, 200);
         gr.scale(10, -10);
 
         gr.drawLine(0, 200, 0, -200);

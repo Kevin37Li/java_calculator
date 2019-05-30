@@ -119,6 +119,12 @@ public class BasicCalculator
             {
                 double result = getExpressionResult(getExpression());
 
+                if (result == Double.POSITIVE_INFINITY || result == Double.NEGATIVE_INFINITY)
+                {
+                    JOptionPane.showMessageDialog(null, "invalid value " +
+                                "(can not divide by zero)");
+                }
+
                 displayArea.append("\n" + String.format("%.2f", result));
             });
 
@@ -220,7 +226,6 @@ public class BasicCalculator
         frame.setContentPane(calculator.centralPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
-        frame.setSize(330, 250);
         frame.setResizable(false);
         frame.setVisible(true);
     }

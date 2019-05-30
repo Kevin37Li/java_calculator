@@ -1,5 +1,7 @@
 package calculator;
 
+import javax.swing.*;
+
 /**
  * This class can compute an arithmetic expression and return the value
  */
@@ -82,7 +84,15 @@ public class ExpressionEvaluator
                 }
                 else
                 {
-                    factor1 /= factor2;
+//                    if (factor2 == 0)
+//                    {
+//                        JOptionPane.showMessageDialog(null, "invalid value " +
+//                                "(can not divide by zero)");
+//                    }
+//                    else
+                    {
+                        factor1 /= factor2;
+                    }
                 }
             }
             else
