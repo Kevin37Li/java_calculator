@@ -3,6 +3,7 @@ package calculator;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Line2D;
+import java.util.function.DoublePredicate;
 
 public class ScientificCalculator extends BasicCalculator
 {
@@ -29,8 +30,8 @@ public class ScientificCalculator extends BasicCalculator
     private boolean drawingMode;
     private JPanel header;
     private JButton draw;
-    JTextField m;
-    JTextField b;
+    private JTextField m;
+    private JTextField b;
 
 
     private double y1;
@@ -70,61 +71,73 @@ public class ScientificCalculator extends BasicCalculator
 
         sin.addActionListener(e ->
             {
-                double num = getNum();
-                double result = Math.sin(Math.toRadians(num));
+                String num = getNum();
+                double result = Math.sin(Math.toRadians(Double.parseDouble(num)));
 
                 // replace the num with the corresponding result with the displayArea
                 resetNum(num, String.format("%.5f", result));
             });
         cos.addActionListener(e ->
             {
-                double num = getNum();
-                double result = Math.cos(Math.toRadians(num));
+                String num = getNum();
+                double result = Math.cos(Math.toRadians(Double.parseDouble(num)));
 
                 resetNum(num, String.format("%.5f", result));
             });
         tan.addActionListener(e ->
             {
-                double num = getNum();
+                String strNum = getNum();
+                double num = Double.parseDouble(strNum);
 
                 // if 90 degree or 270 degree and so on
                 if ((num / 90) % 2 == 1)
                 {
                     JOptionPane.showMessageDialog(null, "invalid value " +
                             "for tangent (result is undefined)");
-                    resetNum(num, "");
+                    resetNum(strNum, "");
                 }
                 // all the other values are valid for tangent
                 else
                 {
                     double result = Math.tan(Math.toRadians(num));
-                    resetNum(num, String.format("%.5f", result));
+                    resetNum(strNum, String.format("%.5f", result));
                 }
             }
         );
         ln.addActionListener(e ->
             {
-                double num = getNum();
-                double result = Math.log(num);
+                String num = getNum();
+                double result = Math.log(Double.parseDouble(num));
                 resetNum(num, String.format("%.5f", result));
             });
         squared.addActionListener(e ->
             {
-                double num = getNum();
-                double result = Math.pow(num, 2);
+                String num = getNum();
+                double result = Math.pow(Double.parseDouble(num), 2);
                 resetNum(num, String.format("%.5f", result));
             });
         cubed.addActionListener(e ->
             {
-                double num = getNum();
-                double result = Math.pow(num, 3);
+                String num = getNum();
+                double result = Math.pow(Double.parseDouble(num), 3);
                 resetNum(num, String.format("%.5f", result));
             });
         sqrt.addActionListener(e ->
             {
-                double num = getNum();
-                double result = Math.sqrt(num);
-                resetNum(num, String.format("%.5f", result));
+                String strNum = getNum();
+                double num = Double.parseDouble(strNum);
+
+                if (num < 0)
+                {
+                    JOptionPane.showMessageDialog(null, "Invalid Value! Cannot" +
+                            "sqrt a negative number");
+                    resetNum(strNum, "");
+                }
+                else
+                {
+                    double result = Math.sqrt(num);
+                    resetNum(strNum, String.format("%.5f", result));
+                }
             });
         graph.addActionListener(e ->
             {
@@ -161,30 +174,7 @@ public class ScientificCalculator extends BasicCalculator
         );
     }
 
-    /**
-     * This method helps to replace the operand num with the result after the operation like sin
-     * or cos within the displayArea
-     * @param num the operand
-     * @param result the result obtained after the operation
-     */
-    private void resetNum(double num, String result)
-    {
-        String displayContent = displayArea.getText();
 
-        // the starting index of the num which will be replaced by result
-        int cut;
-
-        if (num == (int) num)
-        {
-            cut = displayContent.lastIndexOf("" + (int)num);
-        }
-        else
-        {
-            cut = displayContent.lastIndexOf("" + num);
-        }
-
-        displayArea.setText(displayContent.substring(0, cut) + result);
-    }
 
     private void createDrawPanel()
     {
@@ -292,8 +282,10 @@ class DrawingComponent extends JComponent
 //        gr.translate(200, 200);
         gr.scale(10, -10);
 
-        gr.drawLine(0, 200, 0, -200);
-        gr.drawLine(200, 0, -200, 0);
+        gr.drawLine(0, ScientificCalculator.DRAWING_HEIGHT / 2,
+                0, -ScientificCalculator.DRAWING_HEIGHT / 2);
+        gr.drawLine(ScientificCalculator.DRAWING_WIDTH / 2, 0,
+                -ScientificCalculator.DRAWING_WIDTH / 2, 0);
 
         Shape line = new Line2D.Double(ScientificCalculator.x1, y1, ScientificCalculator.x2, y2);
         gr.draw(line);

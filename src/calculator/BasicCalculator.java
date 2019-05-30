@@ -74,10 +74,10 @@ public class BasicCalculator
                 String content = displayArea.getText();
                 if (content.length() != 0 && Character.isDigit(content.charAt(content.length() - 1)))
                 {
-                    double num = getNum();
+                    String num = getNum();
 
-                    // Check if the number entered is an int
-                    if (num == (int) num)
+                    // Check to see if the number is already a decimal
+                    if (!num.contains("."))
                     {
                         displayArea.append(".");
                     }
@@ -117,29 +117,34 @@ public class BasicCalculator
 
         equal.addActionListener(e ->
             {
-                double result = getExpressionResult(getExpression());
+                String expression = getExpression();
+                double result = getExpressionResult(expression);
 
                 if (result == Double.POSITIVE_INFINITY || result == Double.NEGATIVE_INFINITY)
                 {
-                    JOptionPane.showMessageDialog(null, "invalid value " +
-                                "(can not divide by zero)");
+                    JOptionPane.showMessageDialog(null, "Invalid Value!\n" +
+                                "Cannot divide by zero");
+                    resetNum(expression, "");
                 }
-
-                displayArea.append("\n" + String.format("%.2f", result));
+                else
+                {
+                    displayArea.append("\n" + String.format("%.2f", result));
+                }
             });
 
         // clear all the data within displayArea
-        clear.addActionListener(e ->
-            {
-                displayArea.setText("");
-            });
+        clear.addActionListener(e -> displayArea.setText(""));
 
         // delete one character
         delete.addActionListener(e ->
             {
                 String content = displayArea.getText();
-                displayArea.setText(content.substring(0,
-                        content.length() - 1));
+                int length = content.length();
+                if (length != 0)
+                {
+                    displayArea.setText(content.substring(0,
+                            length - 1));
+                }
             });
     }
 
@@ -175,9 +180,9 @@ public class BasicCalculator
 
     /**
      * This method gets the number user just entered for operator like sin or cos to act upon on
-     * @return the number as an operand
+     * @return the String version of the number
      */
-    protected double getNum()
+    protected String getNum()
     {
         String expression = getExpression();
         StringBuilder sb = new StringBuilder();
@@ -193,11 +198,23 @@ public class BasicCalculator
                 break;
             }
         }
+        return sb.reverse().toString();
+    }
 
-        // The String version of the number
-        String strNum = sb.reverse().toString();
+    /**
+     * This method helps to replace the operand num with the result after the operation like sin
+     * or cos within the displayArea
+     * @param num the operand
+     * @param result the result obtained after the operation
+     */
+    protected void resetNum(String num, String result)
+    {
+        String displayContent = displayArea.getText();
 
-        return Double.parseDouble(strNum);
+        // the starting index of the num which will be replaced by result
+        int cut = displayContent.lastIndexOf(num);
+
+        displayArea.setText(displayContent.substring(0, cut) + result);
     }
 
     /**
