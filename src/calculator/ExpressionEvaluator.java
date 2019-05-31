@@ -108,8 +108,10 @@ public class ExpressionEvaluator
 
         if ("(".equals(nextToken))
         {
+            // Consumes "("
             tokenizer.getNextToken();
             value = getExpressionValue();
+            // Consumes ")"
             tokenizer.getNextToken();
         }
         else
@@ -180,7 +182,7 @@ class ExpressionTokenizer
         }
 
         // checks if the first character is a digit
-        if (Character.isDigit(input.charAt(start)))
+        if (Character.isDigit(input.charAt(start)) || input.charAt(start) == '-')
         {
             end = start + 1;
 

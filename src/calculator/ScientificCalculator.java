@@ -72,71 +72,92 @@ public class ScientificCalculator extends BasicCalculator
         sin.addActionListener(e ->
             {
                 String num = getNum();
-                double result = Math.sin(Math.toRadians(Double.parseDouble(num)));
+                if (!num.equals(""))
+                {
+                    double result = Math.sin(Math.toRadians(Double.parseDouble(num)));
 
-                // replace the num with the corresponding result with the displayArea
-                resetNum(num, String.format("%.5f", result));
+                    // replace the num with the corresponding result with the displayArea
+                    resetNum(num, String.format("%.5f", result));
+                }
             });
         cos.addActionListener(e ->
             {
                 String num = getNum();
-                double result = Math.cos(Math.toRadians(Double.parseDouble(num)));
+                if (!num.equals(""))
+                {
+                    double result = Math.cos(Math.toRadians(Double.parseDouble(num)));
 
-                resetNum(num, String.format("%.5f", result));
+                    resetNum(num, String.format("%.5f", result));
+                }
             });
         tan.addActionListener(e ->
             {
                 String strNum = getNum();
-                double num = Double.parseDouble(strNum);
 
-                // if 90 degree or 270 degree and so on
-                if ((num / 90) % 2 == 1)
+                if (!strNum.equals(""))
                 {
-                    JOptionPane.showMessageDialog(null, "invalid value " +
-                            "for tangent (result is undefined)");
-                    resetNum(strNum, "");
-                }
-                // all the other values are valid for tangent
-                else
-                {
-                    double result = Math.tan(Math.toRadians(num));
-                    resetNum(strNum, String.format("%.5f", result));
+                    double num = Double.parseDouble(strNum);
+
+                    // if 90 degree or 270 degree and so on
+                    if ((num / 90) % 2 == 1) {
+                        JOptionPane.showMessageDialog(null, "Invalid Value!\n" +
+                                "Result is undefined");
+                        resetNum(strNum, "");
+                    }
+                    // all the other values are valid for tangent
+                    else {
+                        double result = Math.tan(Math.toRadians(num));
+                        resetNum(strNum, String.format("%.5f", result));
+                    }
                 }
             }
         );
         ln.addActionListener(e ->
             {
                 String num = getNum();
-                double result = Math.log(Double.parseDouble(num));
-                resetNum(num, String.format("%.5f", result));
+
+                if (!num.equals(""))
+                {
+                    double result = Math.log(Double.parseDouble(num));
+                    resetNum(num, String.format("%.5f", result));
+                }
             });
         squared.addActionListener(e ->
             {
                 String num = getNum();
-                double result = Math.pow(Double.parseDouble(num), 2);
-                resetNum(num, String.format("%.5f", result));
+
+                if (!num.equals(""))
+                {
+                    double result = Math.pow(Double.parseDouble(num), 2);
+                    resetNum(num, String.format("%.5f", result));
+                }
             });
         cubed.addActionListener(e ->
             {
                 String num = getNum();
-                double result = Math.pow(Double.parseDouble(num), 3);
-                resetNum(num, String.format("%.5f", result));
+
+                if (!num.equals(""))
+                {
+                    double result = Math.pow(Double.parseDouble(num), 3);
+                    resetNum(num, String.format("%.5f", result));
+                }
             });
         sqrt.addActionListener(e ->
             {
                 String strNum = getNum();
-                double num = Double.parseDouble(strNum);
 
-                if (num < 0)
+                if (!strNum.equals(""))
                 {
-                    JOptionPane.showMessageDialog(null, "Invalid Value! Cannot" +
-                            "sqrt a negative number");
-                    resetNum(strNum, "");
-                }
-                else
-                {
-                    double result = Math.sqrt(num);
-                    resetNum(strNum, String.format("%.5f", result));
+                    double num = Double.parseDouble(strNum);
+
+                    if (num < 0) {
+                        JOptionPane.showMessageDialog(null, "Invalid Value!\n " +
+                                "Cannot sqrt a negative number");
+                        resetNum(strNum, "");
+                    } else {
+                        double result = Math.sqrt(num);
+                        resetNum(strNum, String.format("%.5f", result));
+                    }
                 }
             });
         graph.addActionListener(e ->
@@ -188,6 +209,8 @@ public class ScientificCalculator extends BasicCalculator
         drawingPanel.add(drawLine, BorderLayout.CENTER);
 
         this.centralPanel.add(drawingPanel, BorderLayout.SOUTH);
+
+        drawingPanel.setVisible(drawingMode);
     }
 
     private void createDrawComponent()

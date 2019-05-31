@@ -7,9 +7,16 @@ public class CalculatorTester
 {
     public static void main(String[] args)
     {
-        double a = -1.0 / 0;
+//        ExpressionEvaluator  evaluator = new ExpressionEvaluator("");
+//
+//        System.out.println(evaluator.getExpressionValue());
 
-//        if (a == Double.POSITIVE_INFINITY)
-        System.out.println(a);
+//        double a = Double.parseDouble("-1.0");
+//
+//        System.out.println(a);
+
+        String a = "cool";
+
+        String b = a.substring(a.length());
     }
 }

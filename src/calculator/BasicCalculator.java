@@ -1,6 +1,8 @@
 package calculator;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Scanner;
 
 public class BasicCalculator
@@ -44,6 +46,7 @@ public class BasicCalculator
     private JButton dot;
     private JButton clear;
     private JButton delete;
+    private JButton pos_neg;
 
 
     public BasicCalculator() {
@@ -52,6 +55,7 @@ public class BasicCalculator
         createSwitchButton();
 
         createOperationButtons();
+
     }
 
     /**
@@ -71,8 +75,8 @@ public class BasicCalculator
         num9.addActionListener(e -> displayArea.append("9"));
         dot.addActionListener(e ->
             {
-                String content = displayArea.getText();
-                if (content.length() != 0 && Character.isDigit(content.charAt(content.length() - 1)))
+                String expression = getExpression();
+                if (expression.length() != 0 && Character.isDigit(expression.charAt(expression.length() - 1)))
                 {
                     String num = getNum();
 
@@ -82,7 +86,8 @@ public class BasicCalculator
                         displayArea.append(".");
                     }
                 }
-                else
+                else if (expression.length() == 0 || expression.charAt(expression.length() - 1) != '.' &&
+                        expression.charAt(expression.length() - 1) != ')')
                 {
                     displayArea.append("0.");
                 }
@@ -146,6 +151,30 @@ public class BasicCalculator
                             length - 1));
                 }
             });
+
+        pos_neg.addActionListener(e ->
+            {
+                String num = getNum();
+                if (!num.equals(""))
+                {
+                    if (Double.parseDouble(num) > 0)
+                    {
+                        if (getExpression().indexOf(getNum()) != 0)
+                        {
+                            resetNum(num, "(-" + num + ")");
+                        }
+                        else
+                        {
+                            resetNum(num, "-" + num);
+                        }
+                    }
+                    else if (Double.parseDouble(num) < 0)
+                    {
+                        // Get rid of the negative sign
+                        resetNum(num, num.substring(1));
+                    }
+                }
+            });
     }
 
     /**
@@ -189,9 +218,28 @@ public class BasicCalculator
 
         for (int i = expression.length() - 1; i >= 0; i--)
         {
-            if (Character.isDigit(expression.charAt(i)) || expression.charAt(i) == '.')
+            char token = expression.charAt(i);
+
+            if (token == ')')
+            {
+                continue;
+            }
+            if (Character.isDigit(token) || token == '.')
             {
                 sb.append(expression.charAt(i));
+            }
+            else if (token == '-')
+            {
+                // '-' is a negative sign
+                if (i == 0 || expression.charAt(i - 1) == '(')
+                {
+                    sb.append(expression.charAt(i));
+                }
+                // '-' is a minus sign not a negative sign
+                else
+                {
+                    break;
+                }
             }
             else
             {
@@ -209,12 +257,21 @@ public class BasicCalculator
      */
     protected void resetNum(String num, String result)
     {
-        String displayContent = displayArea.getText();
+        String content = displayArea.getText();
+        String expression = getExpression();
+        int indexForContent = content.indexOf(num);
+        int indexForExpression = expression.indexOf(num);
 
-        // the starting index of the num which will be replaced by result
-        int cut = displayContent.lastIndexOf(num);
+        if (num.contains("-") && !result.contains("-"))
+        {
+            if (indexForExpression != 0 && expression.charAt(indexForExpression - 1) == '(')
+            {
+                displayArea.setText(content.substring(0, indexForContent - 1) + result);
+                return;
+            }
+        }
 
-        displayArea.setText(displayContent.substring(0, cut) + result);
+        displayArea.setText(content.substring(0, indexForContent) + result);
     }
 
     /**
@@ -224,7 +281,8 @@ public class BasicCalculator
     protected void addSymbol(String symbol)
     {
         String content = displayArea.getText();
-        if (content.length() != 0 && Character.isDigit(content.charAt(content.length() - 1)))
+        if (content.length() != 0 && (Character.isDigit(content.charAt(content.length() - 1)) ||
+                content.charAt(content.length() - 1) == ')'))
         {
             displayArea.append(symbol);
         }
