@@ -137,7 +137,6 @@ public class BasicCalculator
                 }
             });
 
-        // clear all the data within displayArea
         clear.addActionListener(e -> displayArea.setText(""));
 
         // delete one character
@@ -152,13 +151,18 @@ public class BasicCalculator
                 }
             });
 
+        // Convert positive number to negative and vice versa
+        // All negative numbers will be enclosed within the parenthesis (to be distinguished
+        // from the minus sign), positive numbers will not
         pos_neg.addActionListener(e ->
             {
                 String num = getNum();
                 if (!num.equals(""))
                 {
-                    if (Double.parseDouble(num) > 0)
+                    // if is a positive number
+                    if (!num.contains("-"))
                     {
+                        // if the expression doesn't starts with that number
                         if (getExpression().indexOf(getNum()) != 0)
                         {
                             resetNum(num, "(-" + num + ")");
@@ -168,7 +172,8 @@ public class BasicCalculator
                             resetNum(num, "-" + num);
                         }
                     }
-                    else if (Double.parseDouble(num) < 0)
+                    // if is a negative number
+                    else
                     {
                         // Get rid of the negative sign
                         resetNum(num, num.substring(1));
@@ -251,7 +256,9 @@ public class BasicCalculator
 
     /**
      * This method helps to replace the operand num with the result after the operation like sin
-     * or cos within the displayArea
+     * or cos.
+     * For negative number converting to positive number, this method will help to get rid of the
+     * parenthesis surrounding the negative number before adding the result to the displayArea
      * @param num the operand
      * @param result the result obtained after the operation
      */
@@ -262,8 +269,10 @@ public class BasicCalculator
         int indexForContent = content.indexOf(num);
         int indexForExpression = expression.indexOf(num);
 
+        // If involves in changing negative to positive
         if (num.contains("-") && !result.contains("-"))
         {
+            // if the negative number is being surrounded by the parenthesis
             if (indexForExpression != 0 && expression.charAt(indexForExpression - 1) == '(')
             {
                 displayArea.setText(content.substring(0, indexForContent - 1) + result);
@@ -271,6 +280,7 @@ public class BasicCalculator
             }
         }
 
+        // if doesn't have to get rid of the parenthesis, do the regular replacement
         displayArea.setText(content.substring(0, indexForContent) + result);
     }
 
@@ -281,6 +291,7 @@ public class BasicCalculator
     protected void addSymbol(String symbol)
     {
         String content = displayArea.getText();
+
         if (content.length() != 0 && (Character.isDigit(content.charAt(content.length() - 1)) ||
                 content.charAt(content.length() - 1) == ')'))
         {
@@ -292,7 +303,7 @@ public class BasicCalculator
     {
         BasicCalculator calculator = new BasicCalculator();
 
-        // there is still content left in displayArea when switching from scientific to basic
+        // If it's switching from Scientific, not first time starting the BasicCalculator
         if (args.length != 0)
         {
             calculator.displayArea.setText(args[0]);
