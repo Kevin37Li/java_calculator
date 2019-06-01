@@ -25,6 +25,7 @@ public class ScientificCalculator extends BasicCalculator
     private JButton closingParenthesis;
     private JButton openingParenthesis;
 
+    // Components needed for drawingPanel
     private JPanel drawingPanel;
     private DrawingComponent drawLine;
     private boolean drawingMode;
@@ -33,12 +34,13 @@ public class ScientificCalculator extends BasicCalculator
     private JTextField m;
     private JTextField b;
 
-
-    private double y1;
-    private double y2;
-
+    // The dimension of the drawLine component
     static final int DRAWING_WIDTH = 500;
     static final int DRAWING_HEIGHT = 400;
+
+    // The two coordinates needed for drawing a linear line
+    private double y1;
+    private double y2;
     static final double x1 = DRAWING_WIDTH / 2.0;
     static final double x2 = DRAWING_WIDTH / -2.0;
 
@@ -62,6 +64,7 @@ public class ScientificCalculator extends BasicCalculator
                         displayArea.append("(");
                     }
                 }
+                // If there is no content
                 else
                 {
                     displayArea.append("(");
@@ -86,18 +89,15 @@ public class ScientificCalculator extends BasicCalculator
                 if (!num.equals(""))
                 {
                     double result = Math.cos(Math.toRadians(Double.parseDouble(num)));
-
                     resetNum(num, String.format("%.5f", result));
                 }
             });
         tan.addActionListener(e ->
             {
                 String strNum = getNum();
-
                 if (!strNum.equals(""))
                 {
                     double num = Double.parseDouble(strNum);
-
                     // if 90 degree or 270 degree and so on
                     if ((num / 90) % 2 == 1) {
                         JOptionPane.showMessageDialog(null, "Invalid Value!\n" +
@@ -115,17 +115,24 @@ public class ScientificCalculator extends BasicCalculator
         ln.addActionListener(e ->
             {
                 String num = getNum();
-
                 if (!num.equals(""))
                 {
-                    double result = Math.log(Double.parseDouble(num));
-                    resetNum(num, String.format("%.5f", result));
+                    if (!num.contains("-"))
+                    {
+                        double result = Math.log(Double.parseDouble(num));
+                        resetNum(num, String.format("%.5f", result));
+                    }
+                    else
+                    {
+                        JOptionPane.showMessageDialog(null, "Invalid Value!\n" +
+                                "Cannot ln a negative number");
+                        resetNum(num, "");
+                    }
                 }
             });
         squared.addActionListener(e ->
             {
                 String num = getNum();
-
                 if (!num.equals(""))
                 {
                     double result = Math.pow(Double.parseDouble(num), 2);
@@ -135,7 +142,6 @@ public class ScientificCalculator extends BasicCalculator
         cubed.addActionListener(e ->
             {
                 String num = getNum();
-
                 if (!num.equals(""))
                 {
                     double result = Math.pow(Double.parseDouble(num), 3);
@@ -145,16 +151,17 @@ public class ScientificCalculator extends BasicCalculator
         sqrt.addActionListener(e ->
             {
                 String strNum = getNum();
-
                 if (!strNum.equals(""))
                 {
                     double num = Double.parseDouble(strNum);
-
-                    if (num < 0) {
+                    if (num < 0)
+                    {
                         JOptionPane.showMessageDialog(null, "Invalid Value!\n " +
                                 "Cannot sqrt a negative number");
                         resetNum(strNum, "");
-                    } else {
+                    }
+                    else
+                    {
                         double result = Math.sqrt(num);
                         resetNum(strNum, String.format("%.5f", result));
                     }

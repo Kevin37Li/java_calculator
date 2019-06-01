@@ -55,7 +55,6 @@ public class BasicCalculator
         createSwitchButton();
 
         createOperationButtons();
-
     }
 
     /**
@@ -276,6 +275,26 @@ public class BasicCalculator
             if (indexForExpression != 0 && expression.charAt(indexForExpression - 1) == '(')
             {
                 displayArea.setText(content.substring(0, indexForContent - 1) + result);
+                return;
+            }
+        }
+        // Needs to convert neg to neg
+        else if (num.contains("-") && result.contains("-"))
+        {
+            // if the negative number is being surrounded by the parenthesis
+            if (indexForExpression != 0 && expression.charAt(indexForExpression - 1) == '(')
+            {
+                displayArea.setText(content.substring(0, indexForContent) + result + ")");
+                return;
+            }
+        }
+        // Needs to covert pos to neg
+        else if (!num.contains("-") && result.contains("-"))
+        {
+            // if the negative number is being surrounded by the parenthesis
+            if (indexForExpression != 0)
+            {
+                displayArea.setText(content.substring(0, indexForContent) + "(" + result + ")");
                 return;
             }
         }
