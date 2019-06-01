@@ -1,5 +1,6 @@
 package calculator;
 
+import javax.sound.sampled.Line;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Line2D;
@@ -35,8 +36,8 @@ public class ScientificCalculator extends BasicCalculator
     private JTextField b;
 
     // The dimension of the drawLine component
-    static final int DRAWING_WIDTH = 500;
-    static final int DRAWING_HEIGHT = 400;
+    static final int DRAWING_WIDTH = 440;
+    static final int DRAWING_HEIGHT = 440;
 
     // The two coordinates needed for drawing a linear line
     private double y1;
@@ -212,8 +213,13 @@ public class ScientificCalculator extends BasicCalculator
         createDrawPanelHeader();
         drawingPanel.add(header, BorderLayout.NORTH);
 
+        JPanel drawing = new JPanel();
+        drawing.add(new JPanel());
         createDrawComponent();
-        drawingPanel.add(drawLine, BorderLayout.CENTER);
+        drawing.add(drawLine);
+        drawing.add(new JPanel());
+        drawingPanel.add(drawing, BorderLayout.CENTER);
+
 
         this.centralPanel.add(drawingPanel, BorderLayout.SOUTH);
 
@@ -296,29 +302,44 @@ public class ScientificCalculator extends BasicCalculator
  */
 class DrawingComponent extends JComponent
 {
+    private double x1;
+    private double x2;
     private double y1;
     private double y2;
 
     public DrawingComponent()
     {
-        y1 = ScientificCalculator.x1;
-        y2 = ScientificCalculator.x2;
+        x1 = ScientificCalculator.x1;
+        x2 = ScientificCalculator.x2;
+        y1 = x1;
+        y2 = x2;
     }
     public void paintComponent(Graphics g)
     {
         Graphics2D gr = (Graphics2D) g;
-        gr.translate(ScientificCalculator.DRAWING_WIDTH / 2.0,
-                ScientificCalculator.DRAWING_HEIGHT / 2.0);
-//        gr.translate(200, 200);
-        gr.scale(10, -10);
 
-        gr.drawLine(0, ScientificCalculator.DRAWING_HEIGHT / 2,
-                0, -ScientificCalculator.DRAWING_HEIGHT / 2);
-        gr.drawLine(ScientificCalculator.DRAWING_WIDTH / 2, 0,
-                -ScientificCalculator.DRAWING_WIDTH / 2, 0);
+        // Moves the origin of the coordinate system to the center of the component
+        gr.translate(this.getWidth() / 2.0, this.getHeight() / 2.0);
+        double xScale = 5;
+        double yScale = -5;
+        gr.scale(xScale, yScale);
 
-        Shape line = new Line2D.Double(ScientificCalculator.x1, y1, ScientificCalculator.x2, y2);
-        gr.draw(line);
+        double maxOfX = this.getWidth() / 2.0 / xScale;
+        double maxOfY = this.getHeight() / 2.0 / -yScale;
+        gr.draw(new Line2D.Double(0, maxOfY, 0, -maxOfY));
+        gr.draw(new Line2D.Double(maxOfX, 0 , -maxOfX, 0));
+
+        // drawing the arrows
+        double arrowLength = 3.5;
+        // Arrow points to the positive direction of y axis
+        gr.draw(new Line2D.Double(0, maxOfY, -arrowLength, maxOfY - arrowLength));
+        gr.draw(new Line2D.Double(0, maxOfY, arrowLength, maxOfY - arrowLength));
+        // Arrow points to the positive direction of x axis
+        gr.draw(new Line2D.Double(maxOfX, 0, maxOfX - arrowLength, arrowLength));
+        gr.draw(new Line2D.Double(maxOfX, 0, maxOfX - arrowLength, -arrowLength));
+
+        // Draws the graph of a liner function provided with two points
+        gr.draw(new Line2D.Double(x1 / xScale, y1 / -yScale, x2 / xScale, y2 / -yScale));
     }
 
     public void reDraw(double y1, double y2)
