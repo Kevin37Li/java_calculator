@@ -1,10 +1,8 @@
 package calculator;
 
-import javax.sound.sampled.Line;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Line2D;
-import java.util.function.DoublePredicate;
 
 public class ScientificCalculator extends BasicCalculator
 {
@@ -36,8 +34,8 @@ public class ScientificCalculator extends BasicCalculator
     private JTextField b;
 
     // The dimension of the drawLine component
-    static final int DRAWING_WIDTH = 440;
-    static final int DRAWING_HEIGHT = 440;
+    private static final int DRAWING_WIDTH = 440;
+    private static final int DRAWING_HEIGHT = 440;
 
     // The two coordinates needed for drawing a linear line
     private double y1;
@@ -50,139 +48,154 @@ public class ScientificCalculator extends BasicCalculator
         drawingMode = false;
         createSwitchButton();
 
-        createDrawPanel();
+        createParenthesisButtons();
 
+        createOperationButtons();
+
+        createDrawingPanel();
+    }
+
+    /**
+     * create buttons for adding opening or closing parenthesis
+     */
+    private void createParenthesisButtons()
+    {
         closingParenthesis.addActionListener(e -> addSymbol(")"));
 
         openingParenthesis.addActionListener(e ->
+        {
+            String content = displayArea.getText();
+            if (content.length() != 0)
             {
-                String content = displayArea.getText();
-                if (content.length() != 0)
-                {
-                    char lastChar = content.charAt(content.length() - 1);
-                    if ((lastChar != '(' && lastChar != ')' && !Character.isDigit(lastChar)))
-                    {
-                        displayArea.append("(");
-                    }
-                }
-                // If there is no content
-                else
+                char lastChar = content.charAt(content.length() - 1);
+                if ((lastChar != '(' && lastChar != ')' && !Character.isDigit(lastChar)))
                 {
                     displayArea.append("(");
                 }
-            });
-
-
-        sin.addActionListener(e ->
-            {
-                String num = getNum();
-                if (!num.equals(""))
-                {
-                    double result = Math.sin(Math.toRadians(Double.parseDouble(num)));
-
-                    // replace the num with the corresponding result with the displayArea
-                    resetNum(num, String.format("%.5f", result));
-                }
-            });
-        cos.addActionListener(e ->
-            {
-                String num = getNum();
-                if (!num.equals(""))
-                {
-                    double result = Math.cos(Math.toRadians(Double.parseDouble(num)));
-                    resetNum(num, String.format("%.5f", result));
-                }
-            });
-        tan.addActionListener(e ->
-            {
-                String strNum = getNum();
-                if (!strNum.equals(""))
-                {
-                    double num = Double.parseDouble(strNum);
-                    // if 90 degree or 270 degree and so on
-                    if ((num / 90) % 2 == 1) {
-                        JOptionPane.showMessageDialog(null, "Invalid Value!\n" +
-                                "Result is undefined");
-                        resetNum(strNum, "");
-                    }
-                    // all the other values are valid for tangent
-                    else {
-                        double result = Math.tan(Math.toRadians(num));
-                        resetNum(strNum, String.format("%.5f", result));
-                    }
-                }
             }
+            // If there is no content
+            else
+            {
+                displayArea.append("(");
+            }
+        });
+    }
+
+    /**
+     * Creates buttons for doing operations
+     */
+    private void createOperationButtons()
+    {
+        sin.addActionListener(e ->
+        {
+            String num = getNum();
+            if (!num.equals(""))
+            {
+                double result = Math.sin(Math.toRadians(Double.parseDouble(num)));
+
+                // replace the num with the corresponding result with the displayArea
+                resetNum(num, String.format("%.5f", result));
+            }
+        });
+        cos.addActionListener(e ->
+        {
+            String num = getNum();
+            if (!num.equals(""))
+            {
+                double result = Math.cos(Math.toRadians(Double.parseDouble(num)));
+                resetNum(num, String.format("%.5f", result));
+            }
+        });
+        tan.addActionListener(e ->
+                {
+                    String strNum = getNum();
+                    if (!strNum.equals(""))
+                    {
+                        double num = Double.parseDouble(strNum);
+                        // if 90 degree or 270 degree and so on
+                        if ((num / 90) % 2 == 1) {
+                            JOptionPane.showMessageDialog(null, "Invalid Value!\n" +
+                                    "Result is undefined");
+                            resetNum(strNum, "");
+                        }
+                        // all the other values are valid for tangent
+                        else {
+                            double result = Math.tan(Math.toRadians(num));
+                            resetNum(strNum, String.format("%.5f", result));
+                        }
+                    }
+                }
         );
         ln.addActionListener(e ->
+        {
+            String num = getNum();
+            if (!num.equals(""))
             {
-                String num = getNum();
-                if (!num.equals(""))
+                if (!num.contains("-"))
                 {
-                    if (!num.contains("-"))
-                    {
-                        double result = Math.log(Double.parseDouble(num));
-                        resetNum(num, String.format("%.5f", result));
-                    }
-                    else
-                    {
-                        JOptionPane.showMessageDialog(null, "Invalid Value!\n" +
-                                "Cannot ln a negative number");
-                        resetNum(num, "");
-                    }
-                }
-            });
-        squared.addActionListener(e ->
-            {
-                String num = getNum();
-                if (!num.equals(""))
-                {
-                    double result = Math.pow(Double.parseDouble(num), 2);
+                    double result = Math.log(Double.parseDouble(num));
                     resetNum(num, String.format("%.5f", result));
-                }
-            });
-        cubed.addActionListener(e ->
-            {
-                String num = getNum();
-                if (!num.equals(""))
-                {
-                    double result = Math.pow(Double.parseDouble(num), 3);
-                    resetNum(num, String.format("%.5f", result));
-                }
-            });
-        sqrt.addActionListener(e ->
-            {
-                String strNum = getNum();
-                if (!strNum.equals(""))
-                {
-                    double num = Double.parseDouble(strNum);
-                    if (num < 0)
-                    {
-                        JOptionPane.showMessageDialog(null, "Invalid Value!\n " +
-                                "Cannot sqrt a negative number");
-                        resetNum(strNum, "");
-                    }
-                    else
-                    {
-                        double result = Math.sqrt(num);
-                        resetNum(strNum, String.format("%.5f", result));
-                    }
-                }
-            });
-        graph.addActionListener(e ->
-            {
-                if (!drawingMode)
-                {
-                    drawingPanel.setVisible(true);
-                    frame.pack();
-                    drawingMode = true;
                 }
                 else
                 {
-                    drawingPanel.setVisible(false);
-                    frame.pack();
-                    drawingMode = false;
+                    JOptionPane.showMessageDialog(null, "Invalid Value!\n" +
+                            "Cannot ln a negative number");
+                    resetNum(num, "");
                 }
-            });
+            }
+        });
+        squared.addActionListener(e ->
+        {
+            String num = getNum();
+            if (!num.equals(""))
+            {
+                double result = Math.pow(Double.parseDouble(num), 2);
+                resetNum(num, String.format("%.5f", result));
+            }
+        });
+        cubed.addActionListener(e ->
+        {
+            String num = getNum();
+            if (!num.equals(""))
+            {
+                double result = Math.pow(Double.parseDouble(num), 3);
+                resetNum(num, String.format("%.5f", result));
+            }
+        });
+        sqrt.addActionListener(e ->
+        {
+            String strNum = getNum();
+            if (!strNum.equals(""))
+            {
+                double num = Double.parseDouble(strNum);
+                if (num < 0)
+                {
+                    JOptionPane.showMessageDialog(null, "Invalid Value!\n " +
+                            "Cannot sqrt a negative number");
+                    resetNum(strNum, "");
+                }
+                else
+                {
+                    double result = Math.sqrt(num);
+                    resetNum(strNum, String.format("%.5f", result));
+                }
+            }
+        });
+        graph.addActionListener(e ->
+        {
+            if (!drawingMode)
+            {
+                drawingPanel.setVisible(true);
+                frame.pack();
+                drawingMode = true;
+            }
+            else
+            {
+                drawingPanel.setVisible(false);
+                frame.pack();
+                drawingMode = false;
+            }
+        });
     }
 
     /**
@@ -203,35 +216,47 @@ public class ScientificCalculator extends BasicCalculator
         );
     }
 
-
-
-    private void createDrawPanel()
+    /**
+     * This method sets up the DrawingPanel for displaying the graph and its associated content
+     */
+    private void createDrawingPanel()
     {
+        // Sets up the panel which is responsible for holding all the related components
         drawingPanel = new JPanel();
         drawingPanel.setLayout(new BorderLayout());
 
+        // Sets up the header(top) part of the drawing panel
         createDrawPanelHeader();
         drawingPanel.add(header, BorderLayout.NORTH);
 
+        // Sets up the panel where the graph will be in
         JPanel drawing = new JPanel();
-        drawing.add(new JPanel());
-        createDrawComponent();
-        drawing.add(drawLine);
+
+        drawing.add(new JPanel());            // Sets an empty panel to the left of the graph
+        createDrawingComponent();                // Sets the actual graph
+        drawing.add(drawLine);                // Sets an empty panel to the right of the graph
+
         drawing.add(new JPanel());
         drawingPanel.add(drawing, BorderLayout.CENTER);
 
-
+        // Puts the drawingPanel at the bottom of the centralPanel
         this.centralPanel.add(drawingPanel, BorderLayout.SOUTH);
-
         drawingPanel.setVisible(drawingMode);
     }
 
-    private void createDrawComponent()
+    /**
+     * This method sets up the graph of the linear function
+     */
+    private void createDrawingComponent()
     {
         drawLine = new DrawingComponent();
         drawLine.setPreferredSize(new Dimension(DRAWING_WIDTH, DRAWING_HEIGHT));
     }
 
+    /**
+     * This method sets up the top part of the drawingPanel, including buttons and textField for
+     * user to do input
+     */
     private void createDrawPanelHeader()
     {
         header = new JPanel();
@@ -247,26 +272,36 @@ public class ScientificCalculator extends BasicCalculator
         header.add(b);
     }
 
+    /**
+     * Creates textField for user to enter the value
+     */
     private void createHeaderTextField()
     {
         final int FIELD_WIDTH = 8;
         m = new JTextField(FIELD_WIDTH);
         b = new JTextField(FIELD_WIDTH);
 
+        // Sets the default value
         m.setText("1");
         b.setText("0");
     }
 
+    /**
+     * Creates the button to generate new graph once being hit according to the value user has
+     * entered
+     */
     private void createDrawButton()
     {
         draw = new JButton("draw");
         draw.addActionListener(e ->
             {
+                // Gets the m and b value entered by the user
                 double m = Double.parseDouble(this.m.getText());
                 double b = Double.parseDouble(this.b.getText());
 
-                y1 = x1 * m + b;
-                y2 = x2 * m + b;
+                // each y value of 1 is equivalent to 5 pixel-length when shown on the screen
+                y1 = x1 * m + b * 5;
+                y2 = x2 * m + b * 5;
                 drawLine.reDraw(y1, y2);
             });
     }
@@ -276,7 +311,7 @@ public class ScientificCalculator extends BasicCalculator
     {
         ScientificCalculator calculator = new ScientificCalculator();
 
-        // there is still content left in displayArea when switching from basic to scientific
+        // If it's switching from Basic, not the first time starting the ScientificCalculator
         if (args.length != 0)
         {
             calculator.displayArea.setText(args[0]);
@@ -284,21 +319,17 @@ public class ScientificCalculator extends BasicCalculator
 
         // add the additionalKeys to its centralPanel which inherited from the BasicCalculator
         calculator.centralPanel.add(calculator.additionalKeys, BorderLayout.EAST);
-        frame.setContentPane(calculator.centralPanel);
 
+        frame.setContentPane(calculator.centralPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        frame.setSize(530, 700);
         frame.pack();
         frame.setResizable(false);
         frame.setVisible(true);
-
     }
-
-
 }
 
 /**
- * A component that draws a linear line
+ * This class helps to draw a linear function graph
  */
 class DrawingComponent extends JComponent
 {
@@ -307,6 +338,9 @@ class DrawingComponent extends JComponent
     private double y1;
     private double y2;
 
+    /**
+     * Constructs a DrawingComponent with  the default valus for x1, x2, y1, y2
+     */
     public DrawingComponent()
     {
         x1 = ScientificCalculator.x1;
@@ -314,12 +348,14 @@ class DrawingComponent extends JComponent
         y1 = x1;
         y2 = x2;
     }
+
     public void paintComponent(Graphics g)
     {
         Graphics2D gr = (Graphics2D) g;
 
         // Moves the origin of the coordinate system to the center of the component
         gr.translate(this.getWidth() / 2.0, this.getHeight() / 2.0);
+
         double xScale = 5;
         double yScale = -5;
         gr.scale(xScale, yScale);
@@ -332,14 +368,15 @@ class DrawingComponent extends JComponent
         // drawing the arrows
         double arrowLength = 3.5;
         // Arrow points to the positive direction of y axis
-        gr.draw(new Line2D.Double(0, maxOfY, -arrowLength, maxOfY - arrowLength));
-        gr.draw(new Line2D.Double(0, maxOfY, arrowLength, maxOfY - arrowLength));
+        gr.draw(new Line2D.Double(0, maxOfY, -arrowLength+1, maxOfY - arrowLength));
+        gr.draw(new Line2D.Double(0, maxOfY, arrowLength-1, maxOfY - arrowLength));
+
         // Arrow points to the positive direction of x axis
-        gr.draw(new Line2D.Double(maxOfX, 0, maxOfX - arrowLength, arrowLength));
-        gr.draw(new Line2D.Double(maxOfX, 0, maxOfX - arrowLength, -arrowLength));
+        gr.draw(new Line2D.Double(maxOfX, 0, maxOfX - arrowLength, arrowLength-1));
+        gr.draw(new Line2D.Double(maxOfX, 0, maxOfX - arrowLength, -arrowLength+1));
 
         // Draws the graph of a liner function provided with two points
-        gr.draw(new Line2D.Double(x1 / xScale, y1 / -yScale, x2 / xScale, y2 / -yScale));
+        gr.draw(new Line2D.Double(x1 / xScale, y1  / -yScale, x2 / xScale, y2 / -yScale));
     }
 
     public void reDraw(double y1, double y2)

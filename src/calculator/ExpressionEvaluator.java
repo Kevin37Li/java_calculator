@@ -1,7 +1,5 @@
 package calculator;
 
-import javax.swing.*;
-
 /**
  * This class can compute an arithmetic expression and return the value
  */

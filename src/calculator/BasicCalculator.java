@@ -322,7 +322,7 @@ public class BasicCalculator
     {
         BasicCalculator calculator = new BasicCalculator();
 
-        // If it's switching from Scientific, not first time starting the BasicCalculator
+        // If it's switching from Scientific, not the first time starting the BasicCalculator
         if (args.length != 0)
         {
             calculator.displayArea.setText(args[0]);
