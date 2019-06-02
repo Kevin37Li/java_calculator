@@ -2,6 +2,9 @@ package calculator;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
 
 public class ScientificCalculator extends BasicCalculator
@@ -300,8 +303,8 @@ public class ScientificCalculator extends BasicCalculator
                 double b = Double.parseDouble(this.b.getText());
 
                 // each y value of 1 is equivalent to 5 pixel-length when shown on the screen
-                y1 = x1 * m + b * 5;
-                y2 = x2 * m + b * 5;
+                y1 = x1 * m + b * -DrawingComponent.yScale;
+                y2 = x2 * m + b * -DrawingComponent.yScale;
                 drawLine.reDraw(y1, y2);
             });
     }
@@ -337,6 +340,8 @@ class DrawingComponent extends JComponent
     private double x2;
     private double y1;
     private double y2;
+    static double xScale = 5;
+    static double yScale = -5;
 
     /**
      * Constructs a DrawingComponent with  the default valus for x1, x2, y1, y2
@@ -349,6 +354,7 @@ class DrawingComponent extends JComponent
         y2 = x2;
     }
 
+    @Override
     public void paintComponent(Graphics g)
     {
         Graphics2D gr = (Graphics2D) g;
@@ -356,8 +362,10 @@ class DrawingComponent extends JComponent
         // Moves the origin of the coordinate system to the center of the component
         gr.translate(this.getWidth() / 2.0, this.getHeight() / 2.0);
 
-        double xScale = 5;
-        double yScale = -5;
+        // Stores the current transformation into originalFormat for printing text later on
+        AffineTransform originalFormat = gr.getTransform();
+
+        // Sets the scale for x and y values
         gr.scale(xScale, yScale);
 
         double maxOfX = this.getWidth() / 2.0 / xScale;
@@ -375,8 +383,39 @@ class DrawingComponent extends JComponent
         gr.draw(new Line2D.Double(maxOfX, 0, maxOfX - arrowLength, arrowLength-1));
         gr.draw(new Line2D.Double(maxOfX, 0, maxOfX - arrowLength, -arrowLength+1));
 
+        // Drawing segments on x axis, each represents 10 units
+        for (int i = 0; i < maxOfX; i+= 10) {
+            gr.drawLine(i, 0, i, 1);
+        }
+        for (int i = 0; i > -maxOfX; i-= 10) {
+            gr.drawLine(i, 0, i, 1);
+        }
+
+        // Drawing segments on y axis, each represents 10 units
+        for (int i = 0; i < maxOfY; i+= 10) {
+            gr.drawLine(0, i, 1, i);
+        }
+        for (int i = 0; i > -maxOfY; i-= 10) {
+            gr.drawLine(0, i, 1, i);
+        }
+
+        // Draw one single segment on the lower right of the component representing 10 units
+        gr.draw(new Line2D.Double(maxOfX-5, -maxOfY+5, maxOfX-15, -maxOfY+5));
+        gr.draw(new Line2D.Double(maxOfX-5, -maxOfY+5, maxOfX-5, -maxOfY+6));
+        gr.draw(new Line2D.Double(maxOfX-15, -maxOfY+5, maxOfX-15, -maxOfY+6));
+
         // Draws the graph of a liner function provided with two points
         gr.draw(new Line2D.Double(x1 / xScale, y1  / -yScale, x2 / xScale, y2 / -yScale));
+
+        // Sets scale back to normal for printing text(the positive direction of y is changed
+        // as going down, the positive direction of x remains the same going right)
+        gr.setTransform(originalFormat);
+        gr.setFont(new Font(null, Font.BOLD, 20));
+        int _maxOfX = this.getWidth() / 2;
+        int _maxOfY = this.getHeight() / 2;
+        gr.drawString("y", 20, -_maxOfY + 20);
+        gr.drawString("x",  _maxOfX-20, 30);
+        gr.drawString("10", _maxOfX-60, _maxOfY-35);
     }
 
     public void reDraw(double y1, double y2)
