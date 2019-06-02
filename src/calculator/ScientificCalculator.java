@@ -2,8 +2,6 @@ package calculator;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
 
@@ -63,7 +61,30 @@ public class ScientificCalculator extends BasicCalculator
      */
     private void createParenthesisButtons()
     {
-        closingParenthesis.addActionListener(e -> addSymbol(")"));
+        closingParenthesis.addActionListener(e ->
+                {
+                    String expression = getExpression();
+                    int countOpenParenthesis = 0;
+                    int countCloseParentesis = 0;
+
+                    for (int i = 0; i < expression.length(); i++)
+                    {
+                        if (expression.charAt(i) == '(')
+                        {
+                            countOpenParenthesis++;
+                        }
+                        else if (expression.charAt(i) == ')')
+                        {
+                            countCloseParentesis++;
+                        }
+                    }
+
+                    if (countCloseParentesis < countOpenParenthesis)
+                    {
+                        addSymbol(")");
+                    }
+
+                });
 
         openingParenthesis.addActionListener(e ->
         {
@@ -71,7 +92,7 @@ public class ScientificCalculator extends BasicCalculator
             if (content.length() != 0)
             {
                 char lastChar = content.charAt(content.length() - 1);
-                if ((lastChar != '(' && lastChar != ')' && !Character.isDigit(lastChar)))
+                if ((lastChar != ')' && !Character.isDigit(lastChar)))
                 {
                     displayArea.append("(");
                 }

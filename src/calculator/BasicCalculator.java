@@ -62,16 +62,16 @@ public class BasicCalculator
      */
     private void createNumberKeys()
     {
-        num0.addActionListener(e -> displayArea.append("0"));
-        num1.addActionListener(e -> displayArea.append("1"));
-        num2.addActionListener(e -> displayArea.append("2"));
-        num3.addActionListener(e -> displayArea.append("3"));
-        num4.addActionListener(e -> displayArea.append("4"));
-        num5.addActionListener(e -> displayArea.append("5"));
-        num6.addActionListener(e -> displayArea.append("6"));
-        num7.addActionListener(e -> displayArea.append("7"));
-        num8.addActionListener(e -> displayArea.append("8"));
-        num9.addActionListener(e -> displayArea.append("9"));
+        num0.addActionListener(e -> addDigit("0"));
+        num1.addActionListener(e -> addDigit("1"));
+        num2.addActionListener(e -> addDigit("2"));
+        num3.addActionListener(e -> addDigit("3"));
+        num4.addActionListener(e -> addDigit("4"));
+        num5.addActionListener(e -> addDigit("5"));
+        num6.addActionListener(e -> addDigit("6"));
+        num7.addActionListener(e -> addDigit("7"));
+        num8.addActionListener(e -> addDigit("8"));
+        num9.addActionListener(e -> addDigit("9"));
         dot.addActionListener(e ->
             {
                 String expression = getExpression();
@@ -312,6 +312,24 @@ public class BasicCalculator
                 content.charAt(content.length() - 1) == ')'))
         {
             displayArea.append(symbol);
+        }
+    }
+
+    /**
+     * This method adds digits to the displayArea
+     * @param digit to be added
+     */
+    private void addDigit(String digit)
+    {
+        String content = displayArea.getText();
+
+        if (content.length() != 0 && content.charAt(content.length() - 1) != ')')
+        {
+            displayArea.append(digit);
+        }
+        else if (content.length() == 0)
+        {
+            displayArea.append(digit);
         }
     }
 
