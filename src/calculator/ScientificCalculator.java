@@ -65,7 +65,7 @@ public class ScientificCalculator extends BasicCalculator
                 {
                     String expression = getExpression();
                     int countOpenParenthesis = 0;
-                    int countCloseParentesis = 0;
+                    int countCloseParenthesis = 0;
 
                     for (int i = 0; i < expression.length(); i++)
                     {
@@ -75,11 +75,11 @@ public class ScientificCalculator extends BasicCalculator
                         }
                         else if (expression.charAt(i) == ')')
                         {
-                            countCloseParentesis++;
+                            countCloseParenthesis++;
                         }
                     }
 
-                    if (countCloseParentesis < countOpenParenthesis)
+                    if (countCloseParenthesis < countOpenParenthesis)
                     {
                         addSymbol(")");
                     }

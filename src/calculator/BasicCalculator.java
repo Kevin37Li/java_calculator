@@ -1,8 +1,6 @@
 package calculator;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Scanner;
 
 public class BasicCalculator
@@ -34,7 +32,7 @@ public class BasicCalculator
     private JButton num8;
     private JButton num9;
 
-    // the button helps switch to ScientificCalculator
+    // the button helps switch between ScientificCalculator and BasicCalculator
     protected JButton switchButton;
 
     // buttons for operators
