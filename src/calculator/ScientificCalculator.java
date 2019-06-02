@@ -94,7 +94,7 @@ public class ScientificCalculator extends BasicCalculator
                 double result = Math.sin(Math.toRadians(Double.parseDouble(num)));
 
                 // replace the num with the corresponding result with the displayArea
-                resetNum(num, String.format("%.5f", result));
+                resetNum(num, String.format("%.2f", result));
             }
         });
         cos.addActionListener(e ->
@@ -103,7 +103,7 @@ public class ScientificCalculator extends BasicCalculator
             if (!num.equals(""))
             {
                 double result = Math.cos(Math.toRadians(Double.parseDouble(num)));
-                resetNum(num, String.format("%.5f", result));
+                resetNum(num, String.format("%.2f", result));
             }
         });
         tan.addActionListener(e ->
@@ -121,7 +121,7 @@ public class ScientificCalculator extends BasicCalculator
                         // all the other values are valid for tangent
                         else {
                             double result = Math.tan(Math.toRadians(num));
-                            resetNum(strNum, String.format("%.5f", result));
+                            resetNum(strNum, String.format("%.2f", result));
                         }
                     }
                 }
@@ -134,7 +134,7 @@ public class ScientificCalculator extends BasicCalculator
                 if (!num.contains("-"))
                 {
                     double result = Math.log(Double.parseDouble(num));
-                    resetNum(num, String.format("%.5f", result));
+                    resetNum(num, String.format("%.2f", result));
                 }
                 else
                 {
@@ -150,7 +150,7 @@ public class ScientificCalculator extends BasicCalculator
             if (!num.equals(""))
             {
                 double result = Math.pow(Double.parseDouble(num), 2);
-                resetNum(num, String.format("%.5f", result));
+                resetNum(num, String.format("%.2f", result));
             }
         });
         cubed.addActionListener(e ->
@@ -159,7 +159,7 @@ public class ScientificCalculator extends BasicCalculator
             if (!num.equals(""))
             {
                 double result = Math.pow(Double.parseDouble(num), 3);
-                resetNum(num, String.format("%.5f", result));
+                resetNum(num, String.format("%.2f", result));
             }
         });
         sqrt.addActionListener(e ->
@@ -177,7 +177,7 @@ public class ScientificCalculator extends BasicCalculator
                 else
                 {
                     double result = Math.sqrt(num);
-                    resetNum(strNum, String.format("%.5f", result));
+                    resetNum(strNum, String.format("%.2f", result));
                 }
             }
         });
@@ -233,10 +233,10 @@ public class ScientificCalculator extends BasicCalculator
         JPanel drawing = new JPanel();
 
         drawing.add(new JPanel());            // Sets an empty panel to the left of the graph
-        createDrawingComponent();                // Sets the actual graph
-        drawing.add(drawLine);                // Sets an empty panel to the right of the graph
+        createDrawingComponent();             // Sets the actual graph
+        drawing.add(drawLine);
+        drawing.add(new JPanel());            // Sets an empty panel to the right of the graph
 
-        drawing.add(new JPanel());
         drawingPanel.add(drawing, BorderLayout.CENTER);
 
         // Puts the drawingPanel at the bottom of the centralPanel
@@ -245,7 +245,7 @@ public class ScientificCalculator extends BasicCalculator
     }
 
     /**
-     * This method sets up the graph of the linear function
+     * This method sets up the graph
      */
     private void createDrawingComponent()
     {

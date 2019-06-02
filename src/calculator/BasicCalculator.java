@@ -161,15 +161,7 @@ public class BasicCalculator
                     // if is a positive number
                     if (!num.contains("-"))
                     {
-                        // if the expression doesn't starts with that number
-                        if (getExpression().indexOf(getNum()) != 0)
-                        {
-                            resetNum(num, "(-" + num + ")");
-                        }
-                        else
-                        {
-                            resetNum(num, "-" + num);
-                        }
+                        resetNum(num, "-" + num);
                     }
                     // if is a negative number
                     else
@@ -212,7 +204,8 @@ public class BasicCalculator
     }
 
     /**
-     * This method gets the number user just entered for operator like sin or cos to act upon on
+     * This method gets the number user just entered, and for negative numbers, it only gets the
+     * number excluding the parenthesis surrounding that number
      * @return the String version of the number
      */
     protected String getNum()
@@ -223,11 +216,12 @@ public class BasicCalculator
         for (int i = expression.length() - 1; i >= 0; i--)
         {
             char token = expression.charAt(i);
-
+            // Ignore all ")"
             if (token == ')')
             {
                 continue;
             }
+
             if (Character.isDigit(token) || token == '.')
             {
                 sb.append(expression.charAt(i));
@@ -257,7 +251,10 @@ public class BasicCalculator
      * This method helps to replace the operand num with the result after the operation like sin
      * or cos.
      * For negative number converting to positive number, this method will help to get rid of the
-     * parenthesis surrounding the negative number before adding the result to the displayArea
+     * parenthesis surrounding the negative number if that number is not at the beginning of a
+     * expression.
+     * Also for positive number to negative, it will add parenthesis around the negative number
+     * if that number is not at the beginning of a expression.
      * @param num the operand
      * @param result the result obtained after the operation
      */
@@ -265,8 +262,8 @@ public class BasicCalculator
     {
         String content = displayArea.getText();
         String expression = getExpression();
-        int indexForContent = content.indexOf(num);
-        int indexForExpression = expression.indexOf(num);
+        int indexForContent = content.lastIndexOf(num);
+        int indexForExpression = expression.lastIndexOf(num);
 
         // If involves in changing negative to positive
         if (num.contains("-") && !result.contains("-"))
@@ -291,7 +288,7 @@ public class BasicCalculator
         // Needs to covert pos to neg
         else if (!num.contains("-") && result.contains("-"))
         {
-            // if the negative number is being surrounded by the parenthesis
+            // If the expression doesn't start with the num
             if (indexForExpression != 0)
             {
                 displayArea.setText(content.substring(0, indexForContent) + "(" + result + ")");
