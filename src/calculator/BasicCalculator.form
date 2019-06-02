@@ -183,7 +183,7 @@
           <component id="f8248" class="javax.swing.JTextArea" binding="displayArea">
             <constraints/>
             <properties>
-              <font name="Klee" size="14" style="3"/>
+              <font name="Monospaced" size="20" style="1"/>
               <rows value="2"/>
             </properties>
           </component>
