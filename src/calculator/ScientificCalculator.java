@@ -47,6 +47,7 @@ public class ScientificCalculator extends BasicCalculator
     public ScientificCalculator()
     {
         drawingMode = false;
+
         createSwitchButton();
 
         createParenthesisButtons();

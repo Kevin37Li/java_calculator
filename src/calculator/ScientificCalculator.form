@@ -15,6 +15,7 @@
           <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
+          <font size="16"/>
           <text value="Tan"/>
         </properties>
       </component>
@@ -23,6 +24,7 @@
           <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
+          <font size="16"/>
           <text value="ln"/>
         </properties>
       </component>
@@ -31,6 +33,7 @@
           <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
+          <font size="16"/>
           <text value="X²"/>
         </properties>
       </component>
@@ -39,6 +42,7 @@
           <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
+          <font size="16"/>
           <text value="Graph"/>
         </properties>
       </component>
@@ -47,6 +51,7 @@
           <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
+          <font size="16"/>
           <text value="X³"/>
         </properties>
       </component>
@@ -55,15 +60,8 @@
           <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
+          <font size="16"/>
           <text value="√X"/>
-        </properties>
-      </component>
-      <component id="80d62" class="javax.swing.JButton" binding="openingParenthesis">
-        <constraints>
-          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <text value="("/>
         </properties>
       </component>
       <component id="c50ee" class="javax.swing.JButton" binding="sin">
@@ -71,6 +69,7 @@
           <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
+          <font size="16"/>
           <text value="Sin"/>
         </properties>
       </component>
@@ -79,6 +78,7 @@
           <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
+          <font size="16"/>
           <text value=")"/>
         </properties>
       </component>
@@ -87,7 +87,17 @@
           <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
+          <font size="16"/>
           <text value="Cos"/>
+        </properties>
+      </component>
+      <component id="80d62" class="javax.swing.JButton" binding="openingParenthesis">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <font size="16"/>
+          <text value="("/>
         </properties>
       </component>
     </children>
